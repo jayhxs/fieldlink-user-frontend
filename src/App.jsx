@@ -229,6 +229,10 @@ function App() {
         method: "POST",
         body: formData,
         signal: controller.signal,
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Accept: "application/json",
+        },
       });
 
       clearTimeout(timeoutId);

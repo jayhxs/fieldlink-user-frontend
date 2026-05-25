@@ -52,16 +52,31 @@ function LookupStep({
         zone_id: String(zoneId),
       });
 
-      const response = await fetch(`/api/inquiries/search?${params.toString()}`);
+      const response = await fetch(`/api/inquiries/search?${params.toString()}`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Accept: "application/json",
+        },
+      });
+
+      const responseText = await response.text();
+
+      console.log("조회 응답 상태코드:", response.status);
+      console.log("조회 응답 Content-Type:", response.headers.get("content-type"));
+      console.log("조회 응답 본문:", responseText);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("조회 실패 상태코드:", response.status);
-        console.error("조회 실패 응답본문:", errorText);
         throw new Error(`조회 실패: ${response.status}`);
       }
 
-      const data = await response.json();
+      let data;
+
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("JSON 파싱 실패:", parseError);
+        throw new Error("조회 응답이 JSON 형식이 아닙니다.");
+      }
 
       if (Array.isArray(data)) {
         setLookupResults(data);
@@ -80,7 +95,10 @@ function LookupStep({
 
   const hasResults = lookupSearched && lookupResults.length > 0;
   const isNotFound =
-    lookupSearched && !lookupLoading && !lookupError && lookupResults.length === 0;
+    lookupSearched &&
+    !lookupLoading &&
+    !lookupError &&
+    lookupResults.length === 0;
 
   return (
     <>
