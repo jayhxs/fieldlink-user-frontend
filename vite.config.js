@@ -5,16 +5,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     allowedHosts: [
-      'suffering-semisweet-resize.ngrok-free.dev',
+      'fieldlink-api.onrender.com',
     ],
     proxy: {
       '/api': {
-        target: 'https://suffering-semisweet-resize.ngrok-free.dev',
+        target: 'https://fieldlink-api.onrender.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
-        },
       },
     },
   },

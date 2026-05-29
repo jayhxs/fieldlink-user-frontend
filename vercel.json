@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://suffering-semisweet-resize.ngrok-free.dev/:path*"
+      "destination": "https://fieldlink-api.onrender.com/:path*"
     }
   ]
 }
