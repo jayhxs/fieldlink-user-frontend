@@ -223,7 +223,7 @@ function App() {
 
       timeoutId = setTimeout(() => {
         controller.abort();
-      }, 8000);
+      }, 30000);
 
       const response = await fetch("/api/inquiries", {
         method: "POST",
@@ -271,13 +271,17 @@ function App() {
     } catch (error) {
       console.error("민원 접수 오류:", error);
 
-      if (error.name === "AbortError") {
+      if (!navigator.onLine) {
         setSubmitError(
-          "접수 전송 시간이 초과되었습니다. 네트워크 상태 또는 서버 연결 상태를 확인한 뒤 다시 시도해주세요."
+          "네트워크 연결이 불안정합니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요."
+        );
+      } else if (error.name === "AbortError") {
+        setSubmitError(
+          "접수 결과 확인이 지연되고 있습니다. 중복 접수를 방지하기 위해 잠시 후 접수 조회에서 확인해주세요."
         );
       } else {
         setSubmitError(
-          "접수 전송에 실패했습니다. 네트워크 상태 또는 서버 연결 상태를 확인한 뒤 다시 시도해주세요."
+          "접수 처리 중 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
         );
       }
     } finally {
