@@ -306,8 +306,11 @@ function App() {
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         backgroundColor: "#f5f7fb",
+        paddingTop: "32px",
+        paddingBottom: "32px",
+        boxSizing: "border-box",
       }}
     >
       <div
