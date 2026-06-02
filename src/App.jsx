@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LanguageStep from "./components/LanguageStep";
 import StadiumStep from "./components/StadiumStep";
 import ServiceStep from "./components/ServiceStep";
@@ -36,6 +36,14 @@ function App() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [step]);
 
   const languageButtonStyle = (language) => ({
     padding: "14px",

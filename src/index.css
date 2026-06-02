@@ -109,3 +109,18 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* 모바일 입력창 터치 시 화면 전체 자동 확대 방지 */
+@media (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* 모바일에서 가로 흔들림 방지 */
+html,
+body {
+  overflow-x: hidden;
+}
