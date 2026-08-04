@@ -16,7 +16,7 @@ function InquiryStep({
   return (
     <>
       <p style={{ marginBottom: "8px", color: "#555", fontWeight: "bold" }}>
-        문제/문의 접수
+        문의·불편사항 접수
       </p>
 
       <p
@@ -75,6 +75,7 @@ function InquiryStep({
         <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
           이름
         </p>
+
         <input
           type="text"
           value={userName}
@@ -97,6 +98,7 @@ function InquiryStep({
         <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
           전화번호
         </p>
+
         <input
           type="tel"
           value={userPhone}
@@ -119,6 +121,7 @@ function InquiryStep({
         <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
           문의 내용
         </p>
+
         <textarea
           value={inquiryText}
           onChange={(e) => setInquiryText(e.target.value)}
@@ -203,6 +206,7 @@ function InquiryStep({
             }}
           >
             첨부된 파일: {selectedImage.name}
+
             <button
               type="button"
               onClick={() => setSelectedImage(null)}

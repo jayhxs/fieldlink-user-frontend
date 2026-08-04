@@ -103,7 +103,7 @@ function LookupStep({
   return (
     <>
       <p style={{ marginBottom: "8px", color: "#555", fontWeight: "bold" }}>
-        접수 조회
+        접수 내역 확인
       </p>
 
       <p

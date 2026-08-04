@@ -11,12 +11,23 @@ function ServiceStep({
   serviceButtonStyle,
   goToStadiumStep,
 }) {
+  const getServiceLabel = (service) => {
+    if (service === "FAQ") return "구장 안내";
+    if (service === "문제/문의 접수") return "문의·불편사항 접수";
+    if (service === "접수 조회") return "접수 내역 확인";
+    return "없음";
+  };
+
   return (
     <>
-      <p style={{ marginBottom: "8px", color: "#555" }}>서비스를 선택해주세요</p>
+      <p style={{ marginBottom: "8px", color: "#555" }}>
+        서비스를 선택해주세요
+      </p>
+
       <p style={{ marginBottom: "8px", color: "#777", fontSize: "14px" }}>
         선택된 언어: {selectedLanguage}
       </p>
+
       <p style={{ marginBottom: "24px", color: "#777", fontSize: "14px" }}>
         선택된 경기장: {selectedStadium}
       </p>
@@ -26,26 +37,26 @@ function ServiceStep({
           style={serviceButtonStyle("FAQ")}
           onClick={() => setSelectedService("FAQ")}
         >
-          FAQ
+          구장 안내
         </button>
 
         <button
           style={serviceButtonStyle("문제/문의 접수")}
           onClick={() => setSelectedService("문제/문의 접수")}
         >
-          문제/문의 접수
+          문의·불편사항 접수
         </button>
 
         <button
           style={serviceButtonStyle("접수 조회")}
           onClick={() => setSelectedService("접수 조회")}
         >
-          접수 조회
+          접수 내역 확인
         </button>
       </div>
 
       <p style={{ marginTop: "24px", color: "#333" }}>
-        선택된 서비스: {selectedService || "없음"}
+        선택된 서비스: {getServiceLabel(selectedService)}
       </p>
 
       <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
