@@ -45,6 +45,8 @@ function LookupStep({
     setLookupError("");
     setLookupResults([]);
 
+    let timeoutId;
+
     try {
       const params = new URLSearchParams({
         user_name: trimmedName,
@@ -52,17 +54,32 @@ function LookupStep({
         zone_id: String(zoneId),
       });
 
-      const response = await fetch(`/api/inquiries/search?${params.toString()}`, {
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          Accept: "application/json",
-        },
-      });
+      const controller = new AbortController();
+
+      timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 30000);
+
+      const response = await fetch(
+        `/api/inquiries/search?${params.toString()}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            Accept: "application/json",
+          },
+          signal: controller.signal,
+        }
+      );
+
+      clearTimeout(timeoutId);
 
       const responseText = await response.text();
 
       console.log("조회 응답 상태코드:", response.status);
-      console.log("조회 응답 Content-Type:", response.headers.get("content-type"));
+      console.log(
+        "조회 응답 Content-Type:",
+        response.headers.get("content-type")
+      );
       console.log("조회 응답 본문:", responseText);
 
       if (!response.ok) {
@@ -84,16 +101,32 @@ function LookupStep({
         setLookupResults([]);
       }
     } catch (error) {
-      console.error("접수 조회 오류:", error);
-      setLookupError(
-        "접수 내역 조회에 실패했습니다. 네트워크 상태 또는 서버 연결 상태를 확인해주세요."
-      );
+      console.error("접수 내역 조회 오류:", error);
+
+      if (!navigator.onLine) {
+        setLookupError(
+          "인터넷 연결이 끊어졌습니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요."
+        );
+      } else if (error.name === "AbortError") {
+        setLookupError(
+          "서버 응답 시간이 초과되었습니다. 잠시 후 다시 시도해주세요."
+        );
+      } else {
+        setLookupError(
+          "접수 내역을 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+        );
+      }
     } finally {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
       setLookupLoading(false);
     }
   };
 
   const hasResults = lookupSearched && lookupResults.length > 0;
+
   const isNotFound =
     lookupSearched &&
     !lookupLoading &&
@@ -134,6 +167,7 @@ function LookupStep({
         <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
           이름
         </p>
+
         <input
           type="text"
           value={lookupName}
@@ -161,6 +195,7 @@ function LookupStep({
         <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
           전화번호
         </p>
+
         <input
           type="tel"
           value={lookupPhone}
