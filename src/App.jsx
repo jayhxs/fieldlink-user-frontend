@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
+
 import LanguageStep from "./components/LanguageStep";
+
 import StadiumStep from "./components/StadiumStep";
+
 import ServiceStep from "./components/ServiceStep";
+
 import InquiryStep from "./components/InquiryStep";
+
 import FollowupStep from "./components/FollowupStep";
+
 import FaqStep from "./components/FaqStep";
+
 import LookupStep from "./components/LookupStep";
+
 import CompleteStep from "./components/CompleteStep";
 
 function App() {
@@ -611,8 +619,16 @@ function App() {
 
       const followupAnswerList = createFollowupAnswerList();
       const followupSummary = createFollowupSummary();
-      const legacyExtraDetail =
-        createLegacyExtraDetail() || extraDetail || "";
+
+      const aiExtraDetail = createLegacyExtraDetail();
+      const manualExtraDetail = extraDetail.trim();
+
+      const combinedExtraDetail = [
+        aiExtraDetail,
+        manualExtraDetail,
+      ]
+        .filter(Boolean)
+        .join("\n");
 
       const summaryText = `경기장: ${selectedStadium}
 문의 유형: ${selectedIssueType || "없음"}
@@ -633,7 +649,7 @@ ${followupSummary}`;
       formData.append("location", selectedLocation || "");
       formData.append("occurred_at", selectedTime || "");
       formData.append("current_status", selectedStatus || "");
-      formData.append("extra_detail", legacyExtraDetail);
+      formData.append("extra_detail", combinedExtraDetail);
       formData.append("summary", summaryText);
 
       if (selectedImage instanceof File) {
@@ -680,7 +696,7 @@ ${followupSummary}`;
           issueType: selectedIssueType,
           occurredAt: selectedTime,
           currentStatus: selectedStatus,
-          extraDetail: legacyExtraDetail,
+          extraDetail: combinedExtraDetail,
         },
 
         followupQuestions,

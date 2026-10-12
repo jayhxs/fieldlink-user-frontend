@@ -44,10 +44,6 @@ function FollowupStep({
     if (question.field === "currentStatus") {
       setSelectedStatus(value);
     }
-
-    if (question.field === "extraDetail") {
-      setExtraDetail(value);
-    }
   };
 
   const allRequiredAnswered = questions.every((question) => {
@@ -286,6 +282,44 @@ function FollowupStep({
       {questions.map((question) =>
         renderQuestion(question)
       )}
+
+      <div
+        style={{
+          textAlign: "left",
+          marginBottom: "22px",
+        }}
+      >
+        <p
+          style={{
+            marginBottom: "10px",
+            color: "#333",
+            fontWeight: "bold",
+            lineHeight: "1.5",
+          }}
+        >
+          추가로 전달할 내용이 있다면 입력해주세요. (선택)
+        </p>
+
+        <textarea
+          value={extraDetail}
+          onChange={(e) => setExtraDetail(e.target.value)}
+          placeholder="추가로 전달할 내용을 입력해주세요."
+          style={{
+            width: "100%",
+            minHeight: "100px",
+            padding: "14px",
+            borderRadius: "12px",
+            border: "1px solid #e5e7eb",
+            backgroundColor: "#f9fafb",
+            fontSize: "13px",
+            fontFamily: "inherit",
+            resize: "none",
+            boxSizing: "border-box",
+            color: "#111",
+            lineHeight: "1.5",
+          }}
+        />
+      </div>
 
       {submitError && (
         <div
