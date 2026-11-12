@@ -1,3 +1,5 @@
+import { getTranslation } from "../translations";
+
 function StadiumStep({
   selectedLanguage,
   selectedStadium,
@@ -5,11 +7,16 @@ function StadiumStep({
   setStep,
   stadiumButtonStyle,
 }) {
+  const text = getTranslation(selectedLanguage);
+
   return (
     <>
-      <p style={{ marginBottom: "8px", color: "#555" }}>경기장을 선택해주세요</p>
+      <p style={{ marginBottom: "8px", color: "#555" }}>
+        {text.stadium.selectStadium}
+      </p>
+
       <p style={{ marginBottom: "24px", color: "#777", fontSize: "14px" }}>
-        선택된 언어: {selectedLanguage}
+        {text.stadium.selectedLanguage}: {selectedLanguage}
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -78,7 +85,8 @@ function StadiumStep({
       </div>
 
       <p style={{ marginTop: "24px", color: "#333" }}>
-        선택된 경기장: {selectedStadium || "없음"}
+        {text.stadium.selectedStadium}:{" "}
+        {selectedStadium || text.stadium.none}
       </p>
 
       <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
@@ -95,8 +103,9 @@ function StadiumStep({
             cursor: "pointer",
           }}
         >
-          이전
+          {text.stadium.previous}
         </button>
+
         <button
           onClick={() => setStep("service")}
           disabled={!selectedStadium}
@@ -111,7 +120,7 @@ function StadiumStep({
             cursor: selectedStadium ? "pointer" : "not-allowed",
           }}
         >
-          다음
+          {text.stadium.next}
         </button>
       </div>
     </>

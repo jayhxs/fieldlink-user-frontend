@@ -1,3 +1,5 @@
+import { getTranslation } from "../translations";
+
 function ServiceStep({
   selectedLanguage,
   selectedStadium,
@@ -11,25 +13,36 @@ function ServiceStep({
   serviceButtonStyle,
   goToStadiumStep,
 }) {
+  const text = getTranslation(selectedLanguage);
+
   const getServiceLabel = (service) => {
-    if (service === "FAQ") return "구장 안내";
-    if (service === "문제/문의 접수") return "문의·불편사항 접수";
-    if (service === "접수 조회") return "접수 내역 확인";
-    return "없음";
+    if (service === "FAQ") {
+      return text.service.stadiumGuide;
+    }
+
+    if (service === "문제/문의 접수") {
+      return text.service.inquiry;
+    }
+
+    if (service === "접수 조회") {
+      return text.service.lookup;
+    }
+
+    return text.service.none;
   };
 
   return (
     <>
       <p style={{ marginBottom: "8px", color: "#555" }}>
-        서비스를 선택해주세요
+        {text.service.selectService}
       </p>
 
       <p style={{ marginBottom: "8px", color: "#777", fontSize: "14px" }}>
-        선택된 언어: {selectedLanguage}
+        {text.service.selectedLanguage}: {selectedLanguage}
       </p>
 
       <p style={{ marginBottom: "24px", color: "#777", fontSize: "14px" }}>
-        선택된 경기장: {selectedStadium}
+        {text.service.selectedStadium}: {selectedStadium}
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -37,26 +50,26 @@ function ServiceStep({
           style={serviceButtonStyle("FAQ")}
           onClick={() => setSelectedService("FAQ")}
         >
-          구장 안내
+          {text.service.stadiumGuide}
         </button>
 
         <button
           style={serviceButtonStyle("문제/문의 접수")}
           onClick={() => setSelectedService("문제/문의 접수")}
         >
-          문의·불편사항 접수
+          {text.service.inquiry}
         </button>
 
         <button
           style={serviceButtonStyle("접수 조회")}
           onClick={() => setSelectedService("접수 조회")}
         >
-          접수 내역 확인
+          {text.service.lookup}
         </button>
       </div>
 
       <p style={{ marginTop: "24px", color: "#333" }}>
-        선택된 서비스: {getServiceLabel(selectedService)}
+        {text.service.selectedService}: {getServiceLabel(selectedService)}
       </p>
 
       <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
@@ -74,7 +87,7 @@ function ServiceStep({
             cursor: "pointer",
           }}
         >
-          이전
+          {text.service.previous}
         </button>
 
         <button
@@ -104,7 +117,7 @@ function ServiceStep({
             cursor: selectedService ? "pointer" : "not-allowed",
           }}
         >
-          다음
+          {text.service.next}
         </button>
       </div>
     </>
