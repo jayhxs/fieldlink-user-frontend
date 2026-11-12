@@ -1,7 +1,7 @@
 import {
   getTranslation,
   languageOptions,
-} from "../translations";
+} from "./translations";
 
 function LanguageStep({
   selectedLanguage,
