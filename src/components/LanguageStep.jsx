@@ -1,36 +1,37 @@
+import {
+  getTranslation,
+  languageOptions,
+} from "../translations";
+
 function LanguageStep({
   selectedLanguage,
   setSelectedLanguage,
   setStep,
   languageButtonStyle,
 }) {
+  const text = getTranslation(selectedLanguage);
+
   return (
     <>
-      <p style={{ marginBottom: "32px", color: "#555" }}>언어를 선택해주세요</p>
+      <p style={{ marginBottom: "32px", color: "#555" }}>
+        {text.language.selectLanguage}
+      </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        <button
-          style={languageButtonStyle("한국어")}
-          onClick={() => setSelectedLanguage("한국어")}
-        >
-          한국어
-        </button>
-        <button
-          style={languageButtonStyle("English")}
-          onClick={() => setSelectedLanguage("English")}
-        >
-          English
-        </button>
-        <button
-          style={languageButtonStyle("日本語")}
-          onClick={() => setSelectedLanguage("日本語")}
-        >
-          日本語
-        </button>
+        {languageOptions.map((language) => (
+          <button
+            key={language.code}
+            style={languageButtonStyle(language.value)}
+            onClick={() => setSelectedLanguage(language.value)}
+          >
+            {language.label}
+          </button>
+        ))}
       </div>
 
       <p style={{ marginTop: "24px", color: "#333" }}>
-        선택된 언어: {selectedLanguage || "없음"}
+        {text.language.selectedLanguage}:{" "}
+        {selectedLanguage || text.language.none}
       </p>
 
       <button
@@ -48,7 +49,7 @@ function LanguageStep({
           cursor: selectedLanguage ? "pointer" : "not-allowed",
         }}
       >
-        다음
+        {text.language.next}
       </button>
     </>
   );
