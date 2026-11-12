@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { getLanguageCode } from "./translations";
+import {
+  getLanguageCode,
+  getTranslation,
+} from "./translations";
 
 import LanguageStep from "./components/LanguageStep";
 import StadiumStep from "./components/StadiumStep";
@@ -12,39 +15,98 @@ import LookupStep from "./components/LookupStep";
 import CompleteStep from "./components/CompleteStep";
 
 function App() {
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [step, setStep] = useState("language");
-  const [selectedStadium, setSelectedStadium] = useState("");
-  const [selectedService, setSelectedService] = useState("");
+  const [selectedLanguage, setSelectedLanguage] =
+    useState("");
 
-  const [userName, setUserName] = useState("");
-  const [userPhone, setUserPhone] = useState("");
-  const [inquiryText, setInquiryText] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [step, setStep] =
+    useState("language");
 
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedIssueType, setSelectedIssueType] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [extraDetail, setExtraDetail] = useState("");
+  const [selectedStadium, setSelectedStadium] =
+    useState("");
 
-  const [followupQuestions, setFollowupQuestions] = useState([]);
-  const [followupAnswers, setFollowupAnswers] = useState({});
+  const [selectedService, setSelectedService] =
+    useState("");
 
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisError, setAnalysisError] = useState("");
+  const [userName, setUserName] =
+    useState("");
 
-  const [lookupName, setLookupName] = useState("");
-  const [lookupPhone, setLookupPhone] = useState("");
-  const [lookupSearched, setLookupSearched] = useState(false);
-  const [selectedFaq, setSelectedFaq] = useState("");
+  const [userPhone, setUserPhone] =
+    useState("");
 
-  const [submittedInquiries, setSubmittedInquiries] = useState([]);
-  const [stadiumCounters, setStadiumCounters] = useState({});
-  const [latestSubmittedInquiry, setLatestSubmittedInquiry] = useState(null);
+  const [inquiryText, setInquiryText] =
+    useState("");
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
+  const [selectedImage, setSelectedImage] =
+    useState(null);
+
+  const [selectedLocation, setSelectedLocation] =
+    useState("");
+
+  const [selectedIssueType, setSelectedIssueType] =
+    useState("");
+
+  const [selectedTime, setSelectedTime] =
+    useState("");
+
+  const [selectedStatus, setSelectedStatus] =
+    useState("");
+
+  const [extraDetail, setExtraDetail] =
+    useState("");
+
+  const [
+    followupQuestions,
+    setFollowupQuestions,
+  ] = useState([]);
+
+  const [
+    followupAnswers,
+    setFollowupAnswers,
+  ] = useState({});
+
+  const [isAnalyzing, setIsAnalyzing] =
+    useState(false);
+
+  const [analysisError, setAnalysisError] =
+    useState("");
+
+  const [lookupName, setLookupName] =
+    useState("");
+
+  const [lookupPhone, setLookupPhone] =
+    useState("");
+
+  const [
+    lookupSearched,
+    setLookupSearched,
+  ] = useState(false);
+
+  const [selectedFaq, setSelectedFaq] =
+    useState("");
+
+  const [
+    submittedInquiries,
+    setSubmittedInquiries,
+  ] = useState([]);
+
+  const [
+    stadiumCounters,
+    setStadiumCounters,
+  ] = useState({});
+
+  const [
+    latestSubmittedInquiry,
+    setLatestSubmittedInquiry,
+  ] = useState(null);
+
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+  const [submitError, setSubmitError] =
+    useState("");
+
+  const text =
+    getTranslation(selectedLanguage);
 
   useEffect(() => {
     window.scrollTo({
@@ -54,7 +116,9 @@ function App() {
     });
   }, [step]);
 
-  const languageButtonStyle = (language) => ({
+  const languageButtonStyle = (
+    language
+  ) => ({
     padding: "14px",
     borderRadius: "12px",
     border:
@@ -62,14 +126,21 @@ function App() {
         ? "2px solid #2563eb"
         : "1px solid #ddd",
     backgroundColor:
-      selectedLanguage === language ? "#eff6ff" : "#ffffff",
+      selectedLanguage === language
+        ? "#eff6ff"
+        : "#ffffff",
     color: "#111",
     fontSize: "16px",
     cursor: "pointer",
-    fontWeight: selectedLanguage === language ? "bold" : "normal",
+    fontWeight:
+      selectedLanguage === language
+        ? "bold"
+        : "normal",
   });
 
-  const stadiumButtonStyle = (stadium) => ({
+  const stadiumButtonStyle = (
+    stadium
+  ) => ({
     padding: "14px",
     borderRadius: "12px",
     border:
@@ -77,14 +148,21 @@ function App() {
         ? "2px solid #2563eb"
         : "1px solid #ddd",
     backgroundColor:
-      selectedStadium === stadium ? "#eff6ff" : "#ffffff",
+      selectedStadium === stadium
+        ? "#eff6ff"
+        : "#ffffff",
     color: "#111",
     fontSize: "16px",
     cursor: "pointer",
-    fontWeight: selectedStadium === stadium ? "bold" : "normal",
+    fontWeight:
+      selectedStadium === stadium
+        ? "bold"
+        : "normal",
   });
 
-  const serviceButtonStyle = (service) => ({
+  const serviceButtonStyle = (
+    service
+  ) => ({
     padding: "14px",
     borderRadius: "12px",
     border:
@@ -92,14 +170,22 @@ function App() {
         ? "2px solid #2563eb"
         : "1px solid #ddd",
     backgroundColor:
-      selectedService === service ? "#eff6ff" : "#ffffff",
+      selectedService === service
+        ? "#eff6ff"
+        : "#ffffff",
     color: "#111",
     fontSize: "16px",
     cursor: "pointer",
-    fontWeight: selectedService === service ? "bold" : "normal",
+    fontWeight:
+      selectedService === service
+        ? "bold"
+        : "normal",
   });
 
-  const optionButtonStyle = (selectedValue, currentValue) => ({
+  const optionButtonStyle = (
+    selectedValue,
+    currentValue
+  ) => ({
     padding: "10px 12px",
     borderRadius: "10px",
     border:
@@ -107,12 +193,17 @@ function App() {
         ? "2px solid #2563eb"
         : "1px solid #ddd",
     backgroundColor:
-      selectedValue === currentValue ? "#eff6ff" : "#ffffff",
+      selectedValue === currentValue
+        ? "#eff6ff"
+        : "#ffffff",
     color: "#111",
     fontSize: "14px",
     fontFamily: "inherit",
     cursor: "pointer",
-    fontWeight: selectedValue === currentValue ? "bold" : "normal",
+    fontWeight:
+      selectedValue === currentValue
+        ? "bold"
+        : "normal",
   });
 
   const stadiumCodeMap = {
@@ -145,19 +236,42 @@ function App() {
 
   const getFormattedDate = () => {
     const today = new Date();
-    const year = String(today.getFullYear()).slice(2);
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const date = String(today.getDate()).padStart(2, "0");
+
+    const year = String(
+      today.getFullYear()
+    ).slice(2);
+
+    const month = String(
+      today.getMonth() + 1
+    ).padStart(2, "0");
+
+    const date = String(
+      today.getDate()
+    ).padStart(2, "0");
 
     return `${year}${month}${date}`;
   };
 
-  const getStadiumCode = (stadiumName) => {
-    return stadiumCodeMap[stadiumName] || "xx";
+  const getStadiumCode = (
+    stadiumName
+  ) => {
+    return (
+      stadiumCodeMap[stadiumName] ||
+      "xx"
+    );
   };
 
-  const createMockFollowupAnalysis = (text) => {
-    const normalizedText = text.replace(/\s/g, "").toLowerCase();
+  /*
+    기존 임시 mock 분석 함수.
+    현재 실제 API 사용 중이므로
+    테스트용으로만 유지한다.
+  */
+  const createMockFollowupAnalysis = (
+    inquiry
+  ) => {
+    const normalizedText = inquiry
+      .replace(/\s/g, "")
+      .toLowerCase();
 
     const saysCurrentTime =
       normalizedText.includes("지금") ||
@@ -176,9 +290,12 @@ function App() {
       normalizedText.includes("위협");
 
     if (isRestroomIssue) {
-      let inferredIssueType = "시설 문제";
+      let inferredIssueType =
+        "시설 문제";
 
-      if (normalizedText.includes("휴지")) {
+      if (
+        normalizedText.includes("휴지")
+      ) {
         inferredIssueType = "휴지 부족";
       } else if (
         normalizedText.includes("고장") ||
@@ -203,15 +320,24 @@ function App() {
         {
           id: "restroom_location",
           field: "location",
-          question: "어느 구역에 있는 화장실인가요?",
-          answerType: "single_choice",
-          options: ["1루", "3루", "외야", "중앙", "잘 모르겠음"],
+          question:
+            "어느 구역에 있는 화장실인가요?",
+          answerType:
+            "single_choice",
+          options: [
+            "1루",
+            "3루",
+            "외야",
+            "중앙",
+            "잘 모르겠음",
+          ],
           required: true,
         },
         {
           id: "nearby_gate",
           field: "extraDetail",
-          question: "가까운 게이트 번호를 알고 있다면 입력해주세요.",
+          question:
+            "가까운 게이트 번호를 알고 있다면 입력해주세요.",
           answerType: "number",
           placeholder: "예: 12",
           suffix: "번 게이트",
@@ -223,8 +349,10 @@ function App() {
         questions.push({
           id: "restroom_time",
           field: "occurredAt",
-          question: "언제 문제를 확인했나요?",
-          answerType: "single_choice",
+          question:
+            "언제 문제를 확인했나요?",
+          answerType:
+            "single_choice",
           options: [
             "방금",
             "10분 이내",
@@ -239,15 +367,24 @@ function App() {
       questions.push({
         id: "restroom_status",
         field: "currentStatus",
-        question: "현재도 같은 문제가 계속되고 있나요?",
-        answerType: "single_choice",
-        options: ["예", "아니오", "잘 모르겠음"],
+        question:
+          "현재도 같은 문제가 계속되고 있나요?",
+        answerType:
+          "single_choice",
+        options: [
+          "예",
+          "아니오",
+          "잘 모르겠음",
+        ],
         required: true,
       });
 
       return {
         inferredIssueType,
-        inferredTime: saysCurrentTime ? "방금" : "",
+        inferredTime:
+          saysCurrentTime
+            ? "방금"
+            : "",
         questions,
       };
     }
@@ -257,9 +394,17 @@ function App() {
         {
           id: "disturbance_location",
           field: "location",
-          question: "어느 구역에서 발생하고 있나요?",
-          answerType: "single_choice",
-          options: ["1루", "3루", "외야", "중앙", "잘 모르겠음"],
+          question:
+            "어느 구역에서 발생하고 있나요?",
+          answerType:
+            "single_choice",
+          options: [
+            "1루",
+            "3루",
+            "외야",
+            "중앙",
+            "잘 모르겠음",
+          ],
           required: true,
         },
       ];
@@ -268,8 +413,10 @@ function App() {
         questions.push({
           id: "disturbance_time",
           field: "occurredAt",
-          question: "언제 발생한 상황인가요?",
-          answerType: "single_choice",
+          question:
+            "언제 발생한 상황인가요?",
+          answerType:
+            "single_choice",
           options: [
             "방금",
             "10분 이내",
@@ -285,15 +432,22 @@ function App() {
         {
           id: "danger_status",
           field: "currentStatus",
-          question: "현재 다른 관람객에게 위협을 가하고 있나요?",
-          answerType: "single_choice",
-          options: ["예", "아니오", "잘 모르겠음"],
+          question:
+            "현재 다른 관람객에게 위협을 가하고 있나요?",
+          answerType:
+            "single_choice",
+          options: [
+            "예",
+            "아니오",
+            "잘 모르겠음",
+          ],
           required: true,
         },
         {
           id: "appearance",
           field: "extraDetail",
-          question: "해당 사람의 복장이나 인상착의를 입력해주세요.",
+          question:
+            "해당 사람의 복장이나 인상착의를 입력해주세요.",
           answerType: "text",
           placeholder:
             "예: 검은색 모자와 빨간색 유니폼을 착용한 사람",
@@ -302,8 +456,12 @@ function App() {
       );
 
       return {
-        inferredIssueType: "안전·질서 문제",
-        inferredTime: saysCurrentTime ? "방금" : "",
+        inferredIssueType:
+          "안전·질서 문제",
+        inferredTime:
+          saysCurrentTime
+            ? "방금"
+            : "",
         questions,
       };
     }
@@ -312,16 +470,26 @@ function App() {
       {
         id: "general_location",
         field: "location",
-        question: "문제가 발생한 구역을 선택해주세요.",
-        answerType: "single_choice",
-        options: ["1루", "3루", "외야", "중앙", "잘 모르겠음"],
+        question:
+          "문제가 발생한 구역을 선택해주세요.",
+        answerType:
+          "single_choice",
+        options: [
+          "1루",
+          "3루",
+          "외야",
+          "중앙",
+          "잘 모르겠음",
+        ],
         required: true,
       },
       {
         id: "general_issue_type",
         field: "issueType",
-        question: "문의 내용과 가장 가까운 유형을 선택해주세요.",
-        answerType: "single_choice",
+        question:
+          "문의 내용과 가장 가까운 유형을 선택해주세요.",
+        answerType:
+          "single_choice",
         options: [
           "시설 문제",
           "안전 문제",
@@ -338,8 +506,10 @@ function App() {
       generalQuestions.push({
         id: "general_time",
         field: "occurredAt",
-        question: "언제 발생했나요?",
-        answerType: "single_choice",
+        question:
+          "언제 발생했나요?",
+        answerType:
+          "single_choice",
         options: [
           "방금",
           "10분 이내",
@@ -354,110 +524,167 @@ function App() {
     generalQuestions.push({
       id: "general_detail",
       field: "extraDetail",
-      question: "추가로 전달할 내용이 있다면 입력해주세요.",
+      question:
+        "추가로 전달할 내용이 있다면 입력해주세요.",
       answerType: "text",
-      placeholder: "필요한 경우에만 짧게 입력해주세요.",
+      placeholder:
+        "필요한 경우에만 짧게 입력해주세요.",
       required: false,
     });
 
     return {
       inferredIssueType: "",
-      inferredTime: saysCurrentTime ? "방금" : "",
-      questions: generalQuestions,
+      inferredTime:
+        saysCurrentTime
+          ? "방금"
+          : "",
+      questions:
+        generalQuestions,
     };
   };
 
-  const handlePrepareFollowup = async () => {
-    if (isAnalyzing) return;
+  const handlePrepareFollowup =
+    async () => {
+      if (isAnalyzing) return;
 
-    setIsAnalyzing(true);
-    setAnalysisError("");
-    setSubmitError("");
+      setIsAnalyzing(true);
+      setAnalysisError("");
+      setSubmitError("");
 
-    const controller = new AbortController();
+      const controller =
+        new AbortController();
 
-    const timeoutId = setTimeout(() => {
-      controller.abort();
-    }, 30000);
+      const timeoutId =
+        setTimeout(() => {
+          controller.abort();
+        }, 30000);
 
-    try {
-      const zoneId = zoneIdMap[selectedStadium];
+      try {
+        const zoneId =
+          zoneIdMap[
+            selectedStadium
+          ];
 
-      const response = await fetch(
-        "https://fieldlink-api.onrender.com/api/inquiries/analyze",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            original_text: inquiryText,
-            zone_id: zoneId,
-            language: getLanguageCode(selectedLanguage),
-          }),
-          signal: controller.signal,
+        const response =
+          await fetch(
+            "https://fieldlink-api.onrender.com/api/inquiries/analyze",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+                Accept:
+                  "application/json",
+              },
+              body: JSON.stringify({
+                original_text:
+                  inquiryText,
+                zone_id: zoneId,
+                language:
+                  getLanguageCode(
+                    selectedLanguage
+                  ),
+              }),
+              signal:
+                controller.signal,
+            }
+          );
+
+        if (!response.ok) {
+          const errorText =
+            await response.text();
+
+          console.error(
+            "AI 분석 실패 상태코드:",
+            response.status
+          );
+
+          console.error(
+            "AI 분석 실패 응답본문:",
+            errorText
+          );
+
+          throw new Error(
+            `AI 분석 요청 실패: ${response.status}`
+          );
         }
-      );
 
-      if (!response.ok) {
-        const errorText = await response.text();
+        const analysis =
+          await response.json();
 
-        console.error("AI 분석 실패 상태코드:", response.status);
-        console.error("AI 분석 실패 응답본문:", errorText);
+        console.log(
+          "AI 분석 결과:",
+          analysis
+        );
 
-        throw new Error(`AI 분석 요청 실패: ${response.status}`);
+        if (
+          !analysis.is_valid_inquiry
+        ) {
+          setAnalysisError(
+            analysis.message ||
+              text.errors
+                .invalidInquiry
+          );
+
+          return;
+        }
+
+        setSelectedLocation("");
+
+        setSelectedIssueType(
+          analysis.inferred_issue_type ||
+            ""
+        );
+
+        setSelectedTime(
+          analysis.inferred_time || ""
+        );
+
+        setSelectedStatus("");
+        setExtraDetail("");
+
+        setFollowupQuestions(
+          Array.isArray(
+            analysis.questions
+          )
+            ? analysis.questions
+            : []
+        );
+
+        setFollowupAnswers({});
+
+        setStep("followup");
+      } catch (error) {
+        console.error(
+          "AI 문의 분석 오류:",
+          error
+        );
+
+        if (!navigator.onLine) {
+          setAnalysisError(
+            text.errors
+              .analyzeNetwork
+          );
+        } else if (
+          error.name ===
+          "AbortError"
+        ) {
+          setAnalysisError(
+            text.errors
+              .analyzeTimeout
+          );
+        } else {
+          setAnalysisError(
+            text.errors
+              .analyzeServer
+          );
+        }
+      } finally {
+        clearTimeout(timeoutId);
+
+        setIsAnalyzing(false);
       }
-
-      const analysis = await response.json();
-
-      console.log("AI 분석 결과:", analysis);
-
-      if (!analysis.is_valid_inquiry) {
-        setAnalysisError(
-          analysis.message ||
-            "문의 내용을 이해하기 어렵습니다. 발생한 상황을 조금 더 구체적으로 입력해주세요."
-        );
-
-        return;
-      }
-
-      setSelectedLocation("");
-      setSelectedIssueType(analysis.inferred_issue_type || "");
-      setSelectedTime(analysis.inferred_time || "");
-      setSelectedStatus("");
-      setExtraDetail("");
-
-      setFollowupQuestions(
-        Array.isArray(analysis.questions)
-          ? analysis.questions
-          : []
-      );
-
-      setFollowupAnswers({});
-
-      setStep("followup");
-    } catch (error) {
-      console.error("AI 문의 분석 오류:", error);
-
-      if (!navigator.onLine) {
-        setAnalysisError(
-          "네트워크 연결이 불안정합니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요."
-        );
-      } else if (error.name === "AbortError") {
-        setAnalysisError(
-          "문의 분석 시간이 초과되었습니다. 잠시 후 다시 시도해주세요."
-        );
-      } else {
-        setAnalysisError(
-          "문의 분석 중 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-        );
-      }
-    } finally {
-      clearTimeout(timeoutId);
-      setIsAnalyzing(false);
-    }
-  };
+    };
 
   const resetInquiryDraft = () => {
     setUserName("");
@@ -488,13 +715,15 @@ function App() {
     setAnalysisError("");
   };
 
-  const handleGoToStadiumStep = () => {
-    resetInquiryDraft();
-    setStep("stadium");
-  };
+  const handleGoToStadiumStep =
+    () => {
+      resetInquiryDraft();
+      setStep("stadium");
+    };
 
   const resetForm = () => {
     setStep("language");
+
     setSelectedLanguage("");
     setSelectedStadium("");
     setSelectedService("");
@@ -526,86 +755,149 @@ function App() {
     setAnalysisError("");
   };
 
-  const handleChangeStadium = (stadiumName) => {
-    setSelectedStadium(stadiumName);
-  };
-
-  const createFollowupAnswerList = () => {
-    return followupQuestions.map((question) => ({
-      question_id: question.id,
-      field: question.field,
-      question: question.question,
-      answer: String(followupAnswers[question.id] || "").trim(),
-    }));
-  };
-
-  const createFollowupSummary = () => {
-    const answeredQuestions = createFollowupAnswerList().filter(
-      (item) => item.answer
+  const handleChangeStadium = (
+    stadiumName
+  ) => {
+    setSelectedStadium(
+      stadiumName
     );
-
-    if (answeredQuestions.length === 0) {
-      return "보완답변 없음";
-    }
-
-    return answeredQuestions
-      .map((item) => `${item.question}: ${item.answer}`)
-      .join("\n");
   };
 
-  const createLegacyExtraDetail = () => {
-    const extraAnswers = followupQuestions
-      .filter((question) => question.field === "extraDetail")
-      .map((question) => {
-        const answer = String(followupAnswers[question.id] || "").trim();
+  const createFollowupAnswerList =
+    () => {
+      return followupQuestions.map(
+        (question) => ({
+          question_id:
+            question.id,
+          field:
+            question.field,
+          question:
+            question.question,
+          answer: String(
+            followupAnswers[
+              question.id
+            ] || ""
+          ).trim(),
+        })
+      );
+    };
 
-        if (!answer) {
-          return null;
-        }
+  const createFollowupSummary =
+    () => {
+      const answeredQuestions =
+        createFollowupAnswerList().filter(
+          (item) => item.answer
+        );
 
-        if (question.suffix) {
-          return `${question.question}: ${answer}${question.suffix}`;
-        }
+      if (
+        answeredQuestions.length === 0
+      ) {
+        return "보완답변 없음";
+      }
 
-        return `${question.question}: ${answer}`;
-      })
-      .filter(Boolean);
-
-    return extraAnswers.join("\n");
-  };
-
-  const handleSubmitInquiry = async () => {
-    if (isSubmitting) return;
-
-    setIsSubmitting(true);
-    setSubmitError("");
-
-    let timeoutId;
-
-    try {
-      const stadiumCode = getStadiumCode(selectedStadium);
-      const formattedDate = getFormattedDate();
-
-      const nextCount = (stadiumCounters[stadiumCode] || 0) + 1;
-      const sequence = String(nextCount).padStart(4, "0");
-      const receiptNumber = `${stadiumCode}-${formattedDate}-${sequence}`;
-
-      const zoneId = zoneIdMap[selectedStadium];
-
-      const followupAnswerList = createFollowupAnswerList();
-      const followupSummary = createFollowupSummary();
-
-      const aiExtraDetail = createLegacyExtraDetail();
-      const manualExtraDetail = extraDetail.trim();
-
-      const combinedExtraDetail = [
-        aiExtraDetail,
-        manualExtraDetail,
-      ]
-        .filter(Boolean)
+      return answeredQuestions
+        .map(
+          (item) =>
+            `${item.question}: ${item.answer}`
+        )
         .join("\n");
+    };
 
-      const summaryText = `경기장: ${selectedStadium}
+  const createLegacyExtraDetail =
+    () => {
+      const extraAnswers =
+        followupQuestions
+          .filter(
+            (question) =>
+              question.field ===
+              "extraDetail"
+          )
+          .map((question) => {
+            const answer = String(
+              followupAnswers[
+                question.id
+              ] || ""
+            ).trim();
+
+            if (!answer) {
+              return null;
+            }
+
+            if (question.suffix) {
+              return `${question.question}: ${answer}${question.suffix}`;
+            }
+
+            return `${question.question}: ${answer}`;
+          })
+          .filter(Boolean);
+
+      return extraAnswers.join(
+        "\n"
+      );
+    };
+
+  const handleSubmitInquiry =
+    async () => {
+      if (isSubmitting) return;
+
+      setIsSubmitting(true);
+      setSubmitError("");
+
+      let timeoutId;
+
+      try {
+        const stadiumCode =
+          getStadiumCode(
+            selectedStadium
+          );
+
+        const formattedDate =
+          getFormattedDate();
+
+        const nextCount =
+          (stadiumCounters[
+            stadiumCode
+          ] || 0) + 1;
+
+        const sequence =
+          String(nextCount).padStart(
+            4,
+            "0"
+          );
+
+        const receiptNumber =
+          `${stadiumCode}-${formattedDate}-${sequence}`;
+
+        const zoneId =
+          zoneIdMap[
+            selectedStadium
+          ];
+
+        const followupAnswerList =
+          createFollowupAnswerList();
+
+        const followupSummary =
+          createFollowupSummary();
+
+        const aiExtraDetail =
+          createLegacyExtraDetail();
+
+        const manualExtraDetail =
+          extraDetail.trim();
+
+        const combinedExtraDetail =
+          [
+            aiExtraDetail,
+            manualExtraDetail,
+          ]
+            .filter(Boolean)
+            .join("\n");
+
+        /*
+          관리자/DB용 요약은
+          기존 한국어 형식을 유지한다.
+        */
+        const summaryText = `경기장: ${selectedStadium}
 문의 유형: ${selectedIssueType || "없음"}
 위치: ${selectedLocation || "없음"}
 발생 시점: ${selectedTime || "없음"}
@@ -613,257 +905,505 @@ function App() {
 보완질문 및 답변:
 ${followupSummary}`;
 
-      const formData = new FormData();
+        const formData =
+          new FormData();
 
-      formData.append("original_text", inquiryText);
-      formData.append("zone_id", String(zoneId));
-      formData.append("user_name", userName.trim());
-      formData.append("user_phone", normalizePhone(userPhone));
-
-      formData.append("issue_type", selectedIssueType || "");
-      formData.append("location", selectedLocation || "");
-      formData.append("occurred_at", selectedTime || "");
-      formData.append("current_status", selectedStatus || "");
-      formData.append("extra_detail", combinedExtraDetail);
-      formData.append("summary", summaryText);
-
-      if (selectedImage instanceof File) {
-        formData.append("image", selectedImage);
-      }
-
-      const controller = new AbortController();
-
-      timeoutId = setTimeout(() => {
-        controller.abort();
-      }, 30000);
-
-      const response = await fetch("/api/inquiries", {
-        method: "POST",
-        body: formData,
-        signal: controller.signal,
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          Accept: "application/json",
-        },
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-
-        console.error("전송 실패 상태코드:", response.status);
-        console.error("전송 실패 응답본문:", errorText);
-
-        throw new Error(`백엔드 전송 실패: ${response.status}`);
-      }
-
-      const submittedInquiry = {
-        receiptNumber,
-        stadium: selectedStadium,
-        userName,
-        userPhone,
-        status: "접수됨",
-        inquiryText,
-
-        followup: {
-          location: selectedLocation,
-          issueType: selectedIssueType,
-          occurredAt: selectedTime,
-          currentStatus: selectedStatus,
-          extraDetail: combinedExtraDetail,
-        },
-
-        followupQuestions,
-        followupAnswers,
-        followupAnswerList,
-      };
-
-      setStadiumCounters((prev) => ({
-        ...prev,
-        [stadiumCode]: nextCount,
-      }));
-
-      setSubmittedInquiries((prev) => [
-        ...prev,
-        submittedInquiry,
-      ]);
-
-      setLatestSubmittedInquiry(submittedInquiry);
-      setStep("complete");
-    } catch (error) {
-      console.error("민원 접수 오류:", error);
-
-      if (!navigator.onLine) {
-        setSubmitError(
-          "네트워크 연결이 불안정합니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요."
+        formData.append(
+          "original_text",
+          inquiryText
         );
-      } else if (error.name === "AbortError") {
-        setSubmitError(
-          "접수 결과 확인이 지연되고 있습니다. 중복 접수를 방지하기 위해 잠시 후 접수 조회에서 확인해주세요."
+
+        formData.append(
+          "zone_id",
+          String(zoneId)
         );
-      } else {
-        setSubmitError(
-          "접수 처리 중 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+
+        formData.append(
+          "user_name",
+          userName.trim()
         );
-      }
-    } finally {
-      if (timeoutId) {
+
+        formData.append(
+          "user_phone",
+          normalizePhone(
+            userPhone
+          )
+        );
+
+        formData.append(
+          "issue_type",
+          selectedIssueType ||
+            ""
+        );
+
+        formData.append(
+          "location",
+          selectedLocation ||
+            ""
+        );
+
+        formData.append(
+          "occurred_at",
+          selectedTime || ""
+        );
+
+        formData.append(
+          "current_status",
+          selectedStatus ||
+            ""
+        );
+
+        formData.append(
+          "extra_detail",
+          combinedExtraDetail
+        );
+
+        formData.append(
+          "summary",
+          summaryText
+        );
+
+        if (
+          selectedImage instanceof
+          File
+        ) {
+          formData.append(
+            "image",
+            selectedImage
+          );
+        }
+
+        const controller =
+          new AbortController();
+
+        timeoutId =
+          setTimeout(() => {
+            controller.abort();
+          }, 30000);
+
+        const response =
+          await fetch(
+            "/api/inquiries",
+            {
+              method: "POST",
+              body: formData,
+              signal:
+                controller.signal,
+              headers: {
+                "ngrok-skip-browser-warning":
+                  "69420",
+                Accept:
+                  "application/json",
+              },
+            }
+          );
+
         clearTimeout(timeoutId);
-      }
 
-      setIsSubmitting(false);
-    }
-  };
+        if (!response.ok) {
+          const errorText =
+            await response.text();
+
+          console.error(
+            "전송 실패 상태코드:",
+            response.status
+          );
+
+          console.error(
+            "전송 실패 응답본문:",
+            errorText
+          );
+
+          throw new Error(
+            `백엔드 전송 실패: ${response.status}`
+          );
+        }
+
+        const submittedInquiry =
+          {
+            receiptNumber,
+            stadium:
+              selectedStadium,
+            userName,
+            userPhone,
+            status: "접수됨",
+            inquiryText,
+
+            followup: {
+              location:
+                selectedLocation,
+
+              issueType:
+                selectedIssueType,
+
+              occurredAt:
+                selectedTime,
+
+              currentStatus:
+                selectedStatus,
+
+              extraDetail:
+                combinedExtraDetail,
+            },
+
+            followupQuestions,
+            followupAnswers,
+            followupAnswerList,
+          };
+
+        setStadiumCounters(
+          (prev) => ({
+            ...prev,
+            [stadiumCode]:
+              nextCount,
+          })
+        );
+
+        setSubmittedInquiries(
+          (prev) => [
+            ...prev,
+            submittedInquiry,
+          ]
+        );
+
+        setLatestSubmittedInquiry(
+          submittedInquiry
+        );
+
+        setStep("complete");
+      } catch (error) {
+        console.error(
+          "민원 접수 오류:",
+          error
+        );
+
+        if (!navigator.onLine) {
+          setSubmitError(
+            text.errors
+              .submitNetwork
+          );
+        } else if (
+          error.name ===
+          "AbortError"
+        ) {
+          setSubmitError(
+            text.errors
+              .submitTimeout
+          );
+        } else {
+          setSubmitError(
+            text.errors
+              .submitServer
+          );
+        }
+      } finally {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+
+        setIsSubmitting(false);
+      }
+    };
 
   return (
     <div
       style={{
         minHeight: "100vh",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        backgroundColor: "#f5f7fb",
+        justifyContent:
+          "center",
+        alignItems:
+          "flex-start",
+        backgroundColor:
+          "#f5f7fb",
         paddingTop: "32px",
         paddingBottom: "32px",
-        boxSizing: "border-box",
+        boxSizing:
+          "border-box",
       }}
     >
       <div
         style={{
           width: "100%",
           maxWidth: "430px",
-          backgroundColor: "white",
-          padding: "40px 24px",
-          borderRadius: "20px",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+          backgroundColor:
+            "white",
+          padding:
+            "40px 24px",
+          borderRadius:
+            "20px",
+          boxShadow:
+            "0 4px 20px rgba(0, 0, 0, 0.08)",
           textAlign: "center",
         }}
       >
         <h1
           style={{
-            marginBottom: "32px",
+            marginBottom:
+              "32px",
             color: "#111",
           }}
         >
           FieldLink
         </h1>
 
-        {step === "language" && (
+        {step ===
+          "language" && (
           <LanguageStep
-            selectedLanguage={selectedLanguage}
-            setSelectedLanguage={setSelectedLanguage}
+            selectedLanguage={
+              selectedLanguage
+            }
+            setSelectedLanguage={
+              setSelectedLanguage
+            }
             setStep={setStep}
-            languageButtonStyle={languageButtonStyle}
+            languageButtonStyle={
+              languageButtonStyle
+            }
           />
         )}
 
-        {step === "stadium" && (
+        {step ===
+          "stadium" && (
           <StadiumStep
-            selectedLanguage={selectedLanguage}
-            selectedStadium={selectedStadium}
-            setSelectedStadium={handleChangeStadium}
+            selectedLanguage={
+              selectedLanguage
+            }
+            selectedStadium={
+              selectedStadium
+            }
+            setSelectedStadium={
+              handleChangeStadium
+            }
             setStep={setStep}
-            stadiumButtonStyle={stadiumButtonStyle}
+            stadiumButtonStyle={
+              stadiumButtonStyle
+            }
           />
         )}
 
-        {step === "service" && (
+        {step ===
+          "service" && (
           <ServiceStep
-            selectedLanguage={selectedLanguage}
-            selectedStadium={selectedStadium}
-            selectedService={selectedService}
-            setSelectedService={setSelectedService}
+            selectedLanguage={
+              selectedLanguage
+            }
+            selectedStadium={
+              selectedStadium
+            }
+            selectedService={
+              selectedService
+            }
+            setSelectedService={
+              setSelectedService
+            }
             setStep={setStep}
-            setLookupName={setLookupName}
-            setLookupPhone={setLookupPhone}
-            setLookupSearched={setLookupSearched}
-            setSelectedFaq={setSelectedFaq}
-            serviceButtonStyle={serviceButtonStyle}
-            goToStadiumStep={handleGoToStadiumStep}
+            setLookupName={
+              setLookupName
+            }
+            setLookupPhone={
+              setLookupPhone
+            }
+            setLookupSearched={
+              setLookupSearched
+            }
+            setSelectedFaq={
+              setSelectedFaq
+            }
+            serviceButtonStyle={
+              serviceButtonStyle
+            }
+            goToStadiumStep={
+              handleGoToStadiumStep
+            }
           />
         )}
 
-        {step === "inquiry" && (
+        {step ===
+          "inquiry" && (
           <InquiryStep
-            selectedLanguage={selectedLanguage}
-            selectedStadium={selectedStadium}
-            userName={userName}
-            setUserName={setUserName}
-            userPhone={userPhone}
-            setUserPhone={setUserPhone}
-            inquiryText={inquiryText}
-            setInquiryText={setInquiryText}
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
-            analysisError={analysisError}
-            clearAnalysisError={() => setAnalysisError("")}
-            isAnalyzing={isAnalyzing}
-            setStep={(nextStep) => {
-              if (nextStep === "followup") {
+            selectedLanguage={
+              selectedLanguage
+            }
+            selectedStadium={
+              selectedStadium
+            }
+            userName={
+              userName
+            }
+            setUserName={
+              setUserName
+            }
+            userPhone={
+              userPhone
+            }
+            setUserPhone={
+              setUserPhone
+            }
+            inquiryText={
+              inquiryText
+            }
+            setInquiryText={
+              setInquiryText
+            }
+            selectedImage={
+              selectedImage
+            }
+            setSelectedImage={
+              setSelectedImage
+            }
+            analysisError={
+              analysisError
+            }
+            clearAnalysisError={() =>
+              setAnalysisError("")
+            }
+            isAnalyzing={
+              isAnalyzing
+            }
+            setStep={(
+              nextStep
+            ) => {
+              if (
+                nextStep ===
+                "followup"
+              ) {
                 handlePrepareFollowup();
                 return;
               }
 
-              setStep(nextStep);
+              setStep(
+                nextStep
+              );
             }}
           />
         )}
 
-        {step === "followup" && (
+        {step ===
+          "followup" && (
           <FollowupStep
-            selectedLanguage={selectedLanguage}
-            inquiryText={inquiryText}
-            questions={followupQuestions}
-            followupAnswers={followupAnswers}
-            setFollowupAnswers={setFollowupAnswers}
-            selectedLocation={selectedLocation}
-            setSelectedLocation={setSelectedLocation}
-            selectedIssueType={selectedIssueType}
-            setSelectedIssueType={setSelectedIssueType}
-            selectedTime={selectedTime}
-            setSelectedTime={setSelectedTime}
-            selectedStatus={selectedStatus}
-            setSelectedStatus={setSelectedStatus}
-            extraDetail={extraDetail}
-            setExtraDetail={setExtraDetail}
+            selectedLanguage={
+              selectedLanguage
+            }
+            inquiryText={
+              inquiryText
+            }
+            questions={
+              followupQuestions
+            }
+            followupAnswers={
+              followupAnswers
+            }
+            setFollowupAnswers={
+              setFollowupAnswers
+            }
+            selectedLocation={
+              selectedLocation
+            }
+            setSelectedLocation={
+              setSelectedLocation
+            }
+            selectedIssueType={
+              selectedIssueType
+            }
+            setSelectedIssueType={
+              setSelectedIssueType
+            }
+            selectedTime={
+              selectedTime
+            }
+            setSelectedTime={
+              setSelectedTime
+            }
+            selectedStatus={
+              selectedStatus
+            }
+            setSelectedStatus={
+              setSelectedStatus
+            }
+            extraDetail={
+              extraDetail
+            }
+            setExtraDetail={
+              setExtraDetail
+            }
             setStep={setStep}
-            optionButtonStyle={optionButtonStyle}
-            handleSubmitInquiry={handleSubmitInquiry}
-            isSubmitting={isSubmitting}
-            submitError={submitError}
+            optionButtonStyle={
+              optionButtonStyle
+            }
+            handleSubmitInquiry={
+              handleSubmitInquiry
+            }
+            isSubmitting={
+              isSubmitting
+            }
+            submitError={
+              submitError
+            }
           />
         )}
 
         {step === "faq" && (
           <FaqStep
-            selectedLanguage={selectedLanguage}
-            selectedStadium={selectedStadium}
+            selectedLanguage={
+              selectedLanguage
+            }
+            selectedStadium={
+              selectedStadium
+            }
             setStep={setStep}
-            resetForm={resetForm}
+            resetForm={
+              resetForm
+            }
           />
         )}
 
-        {step === "lookup" && (
+        {step ===
+          "lookup" && (
           <LookupStep
-            selectedLanguage={selectedLanguage}
-            lookupName={lookupName}
-            setLookupName={setLookupName}
-            lookupPhone={lookupPhone}
-            setLookupPhone={setLookupPhone}
-            lookupSearched={lookupSearched}
-            setLookupSearched={setLookupSearched}
-            selectedStadium={selectedStadium}
+            selectedLanguage={
+              selectedLanguage
+            }
+            lookupName={
+              lookupName
+            }
+            setLookupName={
+              setLookupName
+            }
+            lookupPhone={
+              lookupPhone
+            }
+            setLookupPhone={
+              setLookupPhone
+            }
+            lookupSearched={
+              lookupSearched
+            }
+            setLookupSearched={
+              setLookupSearched
+            }
+            selectedStadium={
+              selectedStadium
+            }
             setStep={setStep}
-            resetForm={resetForm}
+            resetForm={
+              resetForm
+            }
           />
         )}
 
-        {step === "complete" && (
+        {step ===
+          "complete" && (
           <CompleteStep
-            selectedLanguage={selectedLanguage}
-            latestSubmittedInquiry={latestSubmittedInquiry}
-            resetForm={resetForm}
+            selectedLanguage={
+              selectedLanguage
+            }
+            latestSubmittedInquiry={
+              latestSubmittedInquiry
+            }
+            resetForm={
+              resetForm
+            }
           />
         )}
       </div>

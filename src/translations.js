@@ -109,7 +109,8 @@ export const translations = {
       writtenInquiry: "작성한 문의 내용",
       extraDetail:
         "추가로 전달할 내용이 있다면 입력해주세요. (선택)",
-      extraDetailPlaceholder: "추가로 전달할 내용을 입력해주세요.",
+      extraDetailPlaceholder:
+        "추가로 전달할 내용을 입력해주세요.",
       previous: "이전",
       submit: "접수하기",
       submitting: "접수 중...",
@@ -162,6 +163,29 @@ export const translations = {
       extraDetail: "추가 설명",
       none: "없음",
       home: "처음으로",
+    },
+
+    errors: {
+      invalidInquiry:
+        "문의 내용을 이해하기 어렵습니다. 발생한 상황을 조금 더 구체적으로 입력해주세요.",
+
+      analyzeNetwork:
+        "네트워크 연결이 불안정합니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요.",
+
+      analyzeTimeout:
+        "문의 분석 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.",
+
+      analyzeServer:
+        "문의 분석 중 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+
+      submitNetwork:
+        "네트워크 연결이 불안정합니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요.",
+
+      submitTimeout:
+        "접수 결과 확인이 지연되고 있습니다. 중복 접수를 방지하기 위해 잠시 후 접수 조회에서 확인해주세요.",
+
+      submitServer:
+        "접수 처리 중 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     },
   },
 
@@ -217,8 +241,10 @@ export const translations = {
       next: "Next",
       analyzing: "Analyzing...",
       nameRequired: "Please enter your name.",
-      nameTooShort: "Please enter at least 2 characters for your name.",
-      nameTooLong: "Please enter no more than 30 characters for your name.",
+      nameTooShort:
+        "Please enter at least 2 characters for your name.",
+      nameTooLong:
+        "Please enter no more than 30 characters for your name.",
       nameInvalid: "Please enter a valid name.",
       nameRepeated: "Please enter a valid name.",
       phoneRequired: "Please enter your phone number.",
@@ -236,7 +262,8 @@ export const translations = {
       writtenInquiry: "Your inquiry",
       extraDetail:
         "Please enter any additional information you would like to provide. (Optional)",
-      extraDetailPlaceholder: "Enter additional information.",
+      extraDetailPlaceholder:
+        "Enter additional information.",
       previous: "Back",
       submit: "Submit",
       submitting: "Submitting...",
@@ -289,6 +316,29 @@ export const translations = {
       extraDetail: "Additional details",
       none: "None",
       home: "Home",
+    },
+
+    errors: {
+      invalidInquiry:
+        "The inquiry is difficult to understand. Please describe the situation in more detail.",
+
+      analyzeNetwork:
+        "The network connection is unstable. Check your Wi-Fi or mobile data and try again.",
+
+      analyzeTimeout:
+        "The inquiry analysis timed out. Please try again shortly.",
+
+      analyzeServer:
+        "A server error occurred while analyzing your inquiry. Please try again shortly.",
+
+      submitNetwork:
+        "The network connection is unstable. Check your Wi-Fi or mobile data and try again.",
+
+      submitTimeout:
+        "Confirmation of your submission is taking longer than expected. To avoid submitting the same inquiry twice, please check your inquiry status shortly.",
+
+      submitServer:
+        "A server error occurred while submitting your inquiry. Please try again shortly.",
     },
   },
 
@@ -418,6 +468,29 @@ export const translations = {
       none: "なし",
       home: "最初へ",
     },
+
+    errors: {
+      invalidInquiry:
+        "お問い合わせ内容を理解できません。状況をもう少し詳しく入力してください。",
+
+      analyzeNetwork:
+        "ネットワーク接続が不安定です。Wi-Fiまたはモバイルデータを確認して、再度お試しください。",
+
+      analyzeTimeout:
+        "お問い合わせの分析時間を超過しました。しばらくしてから再度お試しください。",
+
+      analyzeServer:
+        "お問い合わせの分析中にサーバーエラーが発生しました。しばらくしてから再度お試しください。",
+
+      submitNetwork:
+        "ネットワーク接続が不安定です。Wi-Fiまたはモバイルデータを確認して、再度お試しください。",
+
+      submitTimeout:
+        "受付結果の確認に時間がかかっています。重複受付を防ぐため、しばらくしてから受付内容を確認してください。",
+
+      submitServer:
+        "受付処理中にサーバーエラーが発生しました。しばらくしてから再度お試しください。",
+    },
   },
 
   "zh-CN": {
@@ -544,6 +617,29 @@ export const translations = {
       none: "无",
       home: "返回首页",
     },
+
+    errors: {
+      invalidInquiry:
+        "无法理解您的咨询内容。请更具体地说明发生的情况。",
+
+      analyzeNetwork:
+        "网络连接不稳定。请检查Wi-Fi或移动数据后重试。",
+
+      analyzeTimeout:
+        "咨询分析超时。请稍后重试。",
+
+      analyzeServer:
+        "分析咨询内容时发生服务器错误。请稍后重试。",
+
+      submitNetwork:
+        "网络连接不稳定。请检查Wi-Fi或移动数据后重试。",
+
+      submitTimeout:
+        "提交结果确认时间较长。为避免重复提交，请稍后通过受理记录进行确认。",
+
+      submitServer:
+        "提交过程中发生服务器错误。请稍后重试。",
+    },
   },
 
   es: {
@@ -598,14 +694,17 @@ export const translations = {
       next: "Siguiente",
       analyzing: "Analizando...",
       nameRequired: "Ingrese su nombre.",
-      nameTooShort: "El nombre debe tener al menos 2 caracteres.",
-      nameTooLong: "El nombre debe tener un máximo de 30 caracteres.",
+      nameTooShort:
+        "El nombre debe tener al menos 2 caracteres.",
+      nameTooLong:
+        "El nombre debe tener un máximo de 30 caracteres.",
       nameInvalid: "Ingrese un nombre válido.",
       nameRepeated: "Ingrese un nombre válido.",
       phoneRequired: "Ingrese su número de teléfono.",
       phoneInvalid:
         "Ingrese un número de móvil coreano de 11 dígitos que comience por 010.",
-      inquiryRequired: "Ingrese los detalles de su consulta.",
+      inquiryRequired:
+        "Ingrese los detalles de su consulta.",
       inquiryInvalid:
         "No se puede comprender la consulta. Describa la situación con más detalle.",
     },
@@ -671,6 +770,29 @@ export const translations = {
       extraDetail: "Información adicional",
       none: "Ninguna",
       home: "Inicio",
+    },
+
+    errors: {
+      invalidInquiry:
+        "No se puede comprender la consulta. Describa la situación con más detalle.",
+
+      analyzeNetwork:
+        "La conexión de red es inestable. Compruebe su Wi-Fi o datos móviles e inténtelo de nuevo.",
+
+      analyzeTimeout:
+        "Se agotó el tiempo de análisis de la consulta. Inténtelo de nuevo en unos momentos.",
+
+      analyzeServer:
+        "Se produjo un error del servidor al analizar la consulta. Inténtelo de nuevo en unos momentos.",
+
+      submitNetwork:
+        "La conexión de red es inestable. Compruebe su Wi-Fi o datos móviles e inténtelo de nuevo.",
+
+      submitTimeout:
+        "La confirmación de la solicitud está tardando más de lo esperado. Para evitar solicitudes duplicadas, consulte el estado de su solicitud dentro de unos momentos.",
+
+      submitServer:
+        "Se produjo un error del servidor al enviar la solicitud. Inténtelo de nuevo en unos momentos.",
     },
   },
 };
@@ -749,8 +871,12 @@ export const stadiumLabels = {
   },
 };
 
-export const getStadiumLabel = (stadiumName, selectedLanguage) => {
-  const languageCode = getLanguageCode(selectedLanguage);
+export const getStadiumLabel = (
+  stadiumName,
+  selectedLanguage
+) => {
+  const languageCode =
+    getLanguageCode(selectedLanguage);
 
   return (
     stadiumLabels[stadiumName]?.[languageCode] ||
@@ -759,8 +885,14 @@ export const getStadiumLabel = (stadiumName, selectedLanguage) => {
   );
 };
 
-export const getTranslation = (selectedLanguage) => {
-  const languageCode = getLanguageCode(selectedLanguage);
+export const getTranslation = (
+  selectedLanguage
+) => {
+  const languageCode =
+    getLanguageCode(selectedLanguage);
 
-  return translations[languageCode] || translations.ko;
+  return (
+    translations[languageCode] ||
+    translations.ko
+  );
 };
