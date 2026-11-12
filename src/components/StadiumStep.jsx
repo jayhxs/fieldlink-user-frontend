@@ -1,4 +1,7 @@
-import { getTranslation } from "../translations";
+import {
+  getStadiumLabel,
+  getTranslation,
+} from "../translations";
 
 function StadiumStep({
   selectedLanguage,
@@ -9,87 +12,66 @@ function StadiumStep({
 }) {
   const text = getTranslation(selectedLanguage);
 
+  const stadiums = [
+    "서울종합운동장 야구장",
+    "고척 스카이돔",
+    "수원 케이티 위즈 파크",
+    "인천 SSG 랜더스필드",
+    "대전 한화생명 볼파크",
+    "대구 삼성 라이온즈 파크",
+    "광주-기아 챔피언스 필드",
+    "창원NC파크",
+    "사직 야구장",
+  ];
+
   return (
     <>
       <p style={{ marginBottom: "8px", color: "#555" }}>
         {text.stadium.selectStadium}
       </p>
 
-      <p style={{ marginBottom: "24px", color: "#777", fontSize: "14px" }}>
+      <p
+        style={{
+          marginBottom: "24px",
+          color: "#777",
+          fontSize: "14px",
+        }}
+      >
         {text.stadium.selectedLanguage}: {selectedLanguage}
       </p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        <button
-          style={stadiumButtonStyle("서울종합운동장 야구장")}
-          onClick={() => setSelectedStadium("서울종합운동장 야구장")}
-        >
-          서울종합운동장 야구장
-        </button>
-
-        <button
-          style={stadiumButtonStyle("고척 스카이돔")}
-          onClick={() => setSelectedStadium("고척 스카이돔")}
-        >
-          고척 스카이돔
-        </button>
-
-        <button
-          style={stadiumButtonStyle("수원 케이티 위즈 파크")}
-          onClick={() => setSelectedStadium("수원 케이티 위즈 파크")}
-        >
-          수원 케이티 위즈 파크
-        </button>
-
-        <button
-          style={stadiumButtonStyle("인천 SSG 랜더스필드")}
-          onClick={() => setSelectedStadium("인천 SSG 랜더스필드")}
-        >
-          인천 SSG 랜더스필드
-        </button>
-
-        <button
-          style={stadiumButtonStyle("대전 한화생명 볼파크")}
-          onClick={() => setSelectedStadium("대전 한화생명 볼파크")}
-        >
-          대전 한화생명 볼파크
-        </button>
-
-        <button
-          style={stadiumButtonStyle("대구 삼성 라이온즈 파크")}
-          onClick={() => setSelectedStadium("대구 삼성 라이온즈 파크")}
-        >
-          대구 삼성 라이온즈 파크
-        </button>
-
-        <button
-          style={stadiumButtonStyle("광주-기아 챔피언스 필드")}
-          onClick={() => setSelectedStadium("광주-기아 챔피언스 필드")}
-        >
-          광주-기아 챔피언스 필드
-        </button>
-
-        <button
-          style={stadiumButtonStyle("창원NC파크")}
-          onClick={() => setSelectedStadium("창원NC파크")}
-        >
-          창원NC파크
-        </button>
-
-        <button
-          style={stadiumButtonStyle("사직 야구장")}
-          onClick={() => setSelectedStadium("사직 야구장")}
-        >
-          사직 야구장
-        </button>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
+        {stadiums.map((stadium) => (
+          <button
+            key={stadium}
+            style={stadiumButtonStyle(stadium)}
+            onClick={() => setSelectedStadium(stadium)}
+          >
+            {getStadiumLabel(stadium, selectedLanguage)}
+          </button>
+        ))}
       </div>
 
       <p style={{ marginTop: "24px", color: "#333" }}>
         {text.stadium.selectedStadium}:{" "}
-        {selectedStadium || text.stadium.none}
+        {selectedStadium
+          ? getStadiumLabel(selectedStadium, selectedLanguage)
+          : text.stadium.none}
       </p>
 
-      <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          marginTop: "24px",
+        }}
+      >
         <button
           onClick={() => setStep("language")}
           style={{

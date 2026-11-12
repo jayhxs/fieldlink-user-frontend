@@ -1,4 +1,7 @@
+import { getTranslation } from "../translations";
+
 function FollowupStep({
+  selectedLanguage,
   inquiryText,
   questions,
   followupAnswers,
@@ -19,6 +22,8 @@ function FollowupStep({
   isSubmitting,
   submitError,
 }) {
+  const text = getTranslation(selectedLanguage);
+
   const getQuestionValue = (questionId) => {
     return followupAnswers[questionId] || "";
   };
@@ -78,8 +83,16 @@ function FollowupStep({
             }}
           >
             {question.question}
+
             {question.required && (
-              <span style={{ color: "#dc2626", marginLeft: "4px" }}>*</span>
+              <span
+                style={{
+                  color: "#dc2626",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
             )}
           </p>
 
@@ -94,8 +107,13 @@ function FollowupStep({
               <button
                 key={option}
                 type="button"
-                onClick={() => setQuestionValue(question, option)}
-                style={optionButtonStyle(currentValue, option)}
+                onClick={() =>
+                  setQuestionValue(question, option)
+                }
+                style={optionButtonStyle(
+                  currentValue,
+                  option
+                )}
               >
                 {option}
               </button>
@@ -123,8 +141,16 @@ function FollowupStep({
             }}
           >
             {question.question}
+
             {question.required && (
-              <span style={{ color: "#dc2626", marginLeft: "4px" }}>*</span>
+              <span
+                style={{
+                  color: "#dc2626",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
             )}
           </p>
 
@@ -139,7 +165,10 @@ function FollowupStep({
               type="number"
               value={currentValue}
               onChange={(e) =>
-                setQuestionValue(question, e.target.value)
+                setQuestionValue(
+                  question,
+                  e.target.value
+                )
               }
               placeholder={question.placeholder || ""}
               style={{
@@ -189,15 +218,26 @@ function FollowupStep({
             }}
           >
             {question.question}
+
             {question.required && (
-              <span style={{ color: "#dc2626", marginLeft: "4px" }}>*</span>
+              <span
+                style={{
+                  color: "#dc2626",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
             )}
           </p>
 
           <textarea
             value={currentValue}
             onChange={(e) =>
-              setQuestionValue(question, e.target.value)
+              setQuestionValue(
+                question,
+                e.target.value
+              )
             }
             placeholder={question.placeholder || ""}
             style={{
@@ -231,7 +271,7 @@ function FollowupStep({
           fontWeight: "bold",
         }}
       >
-        추가 정보 입력
+        {text.followup.title}
       </p>
 
       <p
@@ -242,7 +282,7 @@ function FollowupStep({
           lineHeight: "1.5",
         }}
       >
-        문의 내용을 바탕으로 현장 대응에 필요한 정보를 추가로 입력해주세요.
+        {text.followup.description}
       </p>
 
       <div
@@ -263,7 +303,7 @@ function FollowupStep({
             fontWeight: "bold",
           }}
         >
-          작성한 문의 내용
+          {text.followup.writtenInquiry}
         </p>
 
         <p
@@ -297,13 +337,17 @@ function FollowupStep({
             lineHeight: "1.5",
           }}
         >
-          추가로 전달할 내용이 있다면 입력해주세요. (선택)
+          {text.followup.extraDetail}
         </p>
 
         <textarea
           value={extraDetail}
-          onChange={(e) => setExtraDetail(e.target.value)}
-          placeholder="추가로 전달할 내용을 입력해주세요."
+          onChange={(e) =>
+            setExtraDetail(e.target.value)
+          }
+          placeholder={
+            text.followup.extraDetailPlaceholder
+          }
           style={{
             width: "100%",
             minHeight: "100px",
@@ -360,10 +404,12 @@ function FollowupStep({
             color: "#111",
             fontSize: "16px",
             fontFamily: "inherit",
-            cursor: isSubmitting ? "not-allowed" : "pointer",
+            cursor: isSubmitting
+              ? "not-allowed"
+              : "pointer",
           }}
         >
-          이전
+          {text.followup.previous}
         </button>
 
         <button
@@ -375,14 +421,20 @@ function FollowupStep({
             padding: "14px",
             borderRadius: "12px",
             border: "none",
-            backgroundColor: canSubmit ? "#2563eb" : "#cbd5e1",
+            backgroundColor: canSubmit
+              ? "#2563eb"
+              : "#cbd5e1",
             color: "white",
             fontSize: "16px",
             fontFamily: "inherit",
-            cursor: canSubmit ? "pointer" : "not-allowed",
+            cursor: canSubmit
+              ? "pointer"
+              : "not-allowed",
           }}
         >
-          {isSubmitting ? "접수 중..." : "접수하기"}
+          {isSubmitting
+            ? text.followup.submitting
+            : text.followup.submit}
         </button>
       </div>
     </>

@@ -1,4 +1,7 @@
-import { getTranslation } from "../translations";
+import {
+  getStadiumLabel,
+  getTranslation,
+} from "../translations";
 
 function ServiceStep({
   selectedLanguage,
@@ -42,7 +45,8 @@ function ServiceStep({
       </p>
 
       <p style={{ marginBottom: "24px", color: "#777", fontSize: "14px" }}>
-        {text.service.selectedStadium}: {selectedStadium}
+        {text.service.selectedStadium}:{" "}
+        {getStadiumLabel(selectedStadium, selectedLanguage)}
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

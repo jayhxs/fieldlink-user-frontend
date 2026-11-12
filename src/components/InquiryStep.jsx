@@ -1,6 +1,12 @@
 import { useState } from "react";
 
+import {
+  getStadiumLabel,
+  getTranslation,
+} from "../translations";
+
 function InquiryStep({
+  selectedLanguage,
   selectedStadium,
   userName,
   setUserName,
@@ -19,6 +25,8 @@ function InquiryStep({
   const [phoneError, setPhoneError] = useState("");
   const [inquiryError, setInquiryError] = useState("");
 
+  const text = getTranslation(selectedLanguage);
+
   const canGoNext =
     userName.trim() &&
     userPhone.trim() &&
@@ -29,28 +37,36 @@ function InquiryStep({
     const trimmedName = userName.trim();
 
     if (!trimmedName) {
-      return "이름을 입력해주세요.";
+      return text.inquiry.nameRequired;
     }
 
     if (trimmedName.length < 2) {
-      return "이름은 2자 이상 입력해주세요.";
+      return text.inquiry.nameTooShort;
     }
 
     if (trimmedName.length > 30) {
-      return "이름은 30자 이하로 입력해주세요.";
+      return text.inquiry.nameTooLong;
     }
 
-    // 한글, 영문, 공백만 허용
-    // 단독 자음/모음은 허용되지 않음
-    if (!/^[가-힣a-zA-Z\s]+$/.test(trimmedName)) {
-      return "이름에는 한글, 영문, 공백만 입력할 수 있습니다.";
+    /*
+      모든 언어의 문자(한글, 영어, 일본어, 중국어,
+      스페인어 악센트 문자 등)를 허용한다.
+
+      공백, 하이픈, 아포스트로피, 마침표, 가운데점도
+      이름에서 사용할 수 있도록 허용한다.
+    */
+    if (!/^[\p{L}\p{M}\s.'’\-·]+$/u.test(trimmedName)) {
+      return text.inquiry.nameInvalid;
     }
 
-    // 같은 문자만 반복한 이름 차단
     const compactName = trimmedName.replace(/\s/g, "");
 
+    /*
+      같은 문자만 3회 이상 반복한 값 차단
+      예: aaa, ㅋㅋㅋ 등
+    */
     if (/^(.)\1{2,}$/u.test(compactName)) {
-      return "올바른 이름을 입력해주세요.";
+      return text.inquiry.nameRepeated;
     }
 
     return "";
@@ -60,12 +76,15 @@ function InquiryStep({
     const normalizedPhone = userPhone.replace(/[^0-9]/g, "");
 
     if (!normalizedPhone) {
-      return "전화번호를 입력해주세요.";
+      return text.inquiry.phoneRequired;
     }
 
-    // 010으로 시작하는 휴대전화 번호 11자리
+    /*
+      현재 FieldLink 정책:
+      010으로 시작하는 한국 휴대전화 번호 11자리
+    */
     if (!/^010\d{8}$/.test(normalizedPhone)) {
-      return "010으로 시작하는 휴대전화 번호 11자리를 입력해주세요.";
+      return text.inquiry.phoneInvalid;
     }
 
     return "";
@@ -76,27 +95,32 @@ function InquiryStep({
     const compactText = trimmedText.replace(/\s/g, "");
 
     if (!trimmedText) {
-      return "문의 내용을 입력해주세요.";
+      return text.inquiry.inquiryRequired;
     }
 
-    // 숫자로만 구성된 경우
+    /*
+      숫자로만 구성된 문의 차단
+    */
     if (/^\d+$/.test(compactText)) {
-      return "문의 내용을 이해하기 어렵습니다. 발생한 상황을 조금 더 구체적으로 입력해주세요.";
+      return text.inquiry.inquiryInvalid;
     }
 
-    // 영문 알파벳만 무작위로 입력한 것으로 보이는 경우
-    if (/^[a-zA-Z]+$/.test(compactText)) {
-      return "문의 내용을 이해하기 어렵습니다. 발생한 상황을 조금 더 구체적으로 입력해주세요.";
+    /*
+      문자나 숫자가 하나도 없고
+      특수문자로만 구성된 문의 차단.
+
+      Unicode 문자 기준이므로
+      한글, 영어, 일본어, 중국어, 스페인어 모두 허용된다.
+    */
+    if (/^[^\p{L}\p{N}]+$/u.test(compactText)) {
+      return text.inquiry.inquiryInvalid;
     }
 
-    // 특수문자로만 구성된 경우
-    if (/^[^가-힣a-zA-Z0-9]+$/.test(compactText)) {
-      return "문의 내용을 이해하기 어렵습니다. 발생한 상황을 조금 더 구체적으로 입력해주세요.";
-    }
-
-    // 같은 문자나 짧은 표현이 반복되는 경우
-    if (/^(.)\1{2,}$/.test(compactText)) {
-      return "문의 내용을 이해하기 어렵습니다. 발생한 상황을 조금 더 구체적으로 입력해주세요.";
+    /*
+      동일 문자만 반복된 비정상 입력 차단
+    */
+    if (/^(.)\1{2,}$/u.test(compactText)) {
+      return text.inquiry.inquiryInvalid;
     }
 
     return "";
@@ -168,8 +192,14 @@ function InquiryStep({
 
   return (
     <>
-      <p style={{ marginBottom: "8px", color: "#555", fontWeight: "bold" }}>
-        문의·불편사항 접수
+      <p
+        style={{
+          marginBottom: "8px",
+          color: "#555",
+          fontWeight: "bold",
+        }}
+      >
+        {text.inquiry.title}
       </p>
 
       <p
@@ -180,7 +210,8 @@ function InquiryStep({
           lineHeight: "1.5",
         }}
       >
-        현재 선택 경기장: {selectedStadium}
+        {text.inquiry.currentStadium}:{" "}
+        {getStadiumLabel(selectedStadium, selectedLanguage)}
       </p>
 
       <div
@@ -213,21 +244,30 @@ function InquiryStep({
             lineHeight: "1.6",
           }}
         >
-          <p style={{ margin: "0 0 4px 0", fontWeight: "bold" }}>
-            정확한 현장 대응을 위해 실제 정보를 입력해주세요.
+          <p
+            style={{
+              margin: "0 0 4px 0",
+              fontWeight: "bold",
+            }}
+          >
+            {text.inquiry.warningTitle}
           </p>
 
           <p style={{ margin: 0 }}>
-            이름, 전화번호 및 문의 내용에 허위 정보가 포함되거나 장난성 신고로
-            판단될 경우 접수 처리에 제한이 있거나 법적 책임이 발생할 수
-            있습니다.
+            {text.inquiry.warningText}
           </p>
         </div>
       </div>
 
       <div style={{ textAlign: "left", marginBottom: "14px" }}>
-        <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
-          이름
+        <p
+          style={{
+            marginBottom: "8px",
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.inquiry.name}
         </p>
 
         <input
@@ -268,8 +308,14 @@ function InquiryStep({
       </div>
 
       <div style={{ textAlign: "left", marginBottom: "14px" }}>
-        <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
-          전화번호
+        <p
+          style={{
+            marginBottom: "8px",
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.inquiry.phone}
         </p>
 
         <input
@@ -310,15 +356,20 @@ function InquiryStep({
       </div>
 
       <div style={{ textAlign: "left", marginBottom: "14px" }}>
-        <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
-          문의 내용
+        <p
+          style={{
+            marginBottom: "8px",
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.inquiry.inquiryText}
         </p>
 
         <textarea
           value={inquiryText}
           onChange={handleInquiryTextChange}
-          placeholder={`언제, 어디서, 어떤 문제가 발생하였는지 자유롭게 작성해주세요.
-예: 현재 3루 내야 2층 화장실에 휴지가 부족합니다.`}
+          placeholder={text.inquiry.inquiryPlaceholder}
           style={{
             width: "100%",
             minHeight: "130px",
@@ -356,8 +407,14 @@ function InquiryStep({
       </div>
 
       <div style={{ textAlign: "left", marginBottom: "18px" }}>
-        <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
-          사진 첨부
+        <p
+          style={{
+            marginBottom: "8px",
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.inquiry.image}
         </p>
 
         <label
@@ -374,14 +431,16 @@ function InquiryStep({
             cursor: "pointer",
           }}
         >
-          사진 선택
+          {text.inquiry.selectImage}
         </label>
 
         <input
           id="imageUpload"
           type="file"
           accept="image/*"
-          onChange={(e) => setSelectedImage(e.target.files[0] || null)}
+          onChange={(e) =>
+            setSelectedImage(e.target.files[0] || null)
+          }
           style={{
             position: "absolute",
             left: "-9999px",
@@ -400,7 +459,7 @@ function InquiryStep({
             lineHeight: "1.5",
           }}
         >
-          사진은 선택사항입니다.
+          {text.inquiry.imageOptional}
         </p>
 
         {selectedImage ? (
@@ -416,7 +475,7 @@ function InquiryStep({
               lineHeight: "1.5",
             }}
           >
-            첨부된 파일: {selectedImage.name}
+            {text.inquiry.attachedFile}: {selectedImage.name}
 
             <button
               type="button"
@@ -433,7 +492,7 @@ function InquiryStep({
                 cursor: "pointer",
               }}
             >
-              취소
+              {text.inquiry.cancel}
             </button>
           </div>
         ) : (
@@ -445,12 +504,18 @@ function InquiryStep({
               lineHeight: "1.5",
             }}
           >
-            첨부된 사진이 없습니다.
+            {text.inquiry.noImage}
           </p>
         )}
       </div>
 
-      <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          marginTop: "24px",
+        }}
+      >
         <button
           type="button"
           onClick={() => setStep("service")}
@@ -467,7 +532,7 @@ function InquiryStep({
             cursor: isAnalyzing ? "not-allowed" : "pointer",
           }}
         >
-          이전
+          {text.inquiry.previous}
         </button>
 
         <button
@@ -486,7 +551,9 @@ function InquiryStep({
             cursor: canGoNext ? "pointer" : "not-allowed",
           }}
         >
-          {isAnalyzing ? "분석 중..." : "다음"}
+          {isAnalyzing
+            ? text.inquiry.analyzing
+            : text.inquiry.next}
         </button>
       </div>
     </>

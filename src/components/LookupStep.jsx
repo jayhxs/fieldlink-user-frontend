@@ -1,6 +1,12 @@
 import { useState } from "react";
 
+import {
+  getStadiumLabel,
+  getTranslation,
+} from "../translations";
+
 function LookupStep({
+  selectedLanguage,
   lookupName,
   setLookupName,
   lookupPhone,
@@ -14,6 +20,8 @@ function LookupStep({
   const [lookupResults, setLookupResults] = useState([]);
   const [lookupLoading, setLookupLoading] = useState(false);
   const [lookupError, setLookupError] = useState("");
+
+  const text = getTranslation(selectedLanguage);
 
   const normalizePhone = (phone) => {
     return phone.replace(/[^0-9]/g, "");
@@ -35,7 +43,24 @@ function LookupStep({
   const normalizedLookupPhone = normalizePhone(lookupPhone);
   const zoneId = zoneIdMap[selectedStadium];
 
-  const canSearch = trimmedName && normalizedLookupPhone && !lookupLoading;
+  const canSearch =
+    trimmedName && normalizedLookupPhone && !lookupLoading;
+
+  const getStatusLabel = (status) => {
+    if (status === "접수됨") {
+      return text.lookup.statusReceived;
+    }
+
+    if (status === "처리 중" || status === "처리중") {
+      return text.lookup.statusProcessing;
+    }
+
+    if (status === "처리 완료" || status === "완료") {
+      return text.lookup.statusComplete;
+    }
+
+    return status;
+  };
 
   const handleSearch = async () => {
     if (!canSearch) return;
@@ -104,17 +129,11 @@ function LookupStep({
       console.error("접수 내역 조회 오류:", error);
 
       if (!navigator.onLine) {
-        setLookupError(
-          "인터넷 연결이 끊어졌습니다. 와이파이 또는 데이터를 확인한 뒤 다시 시도해주세요."
-        );
+        setLookupError(text.lookup.networkError);
       } else if (error.name === "AbortError") {
-        setLookupError(
-          "서버 응답 시간이 초과되었습니다. 잠시 후 다시 시도해주세요."
-        );
+        setLookupError(text.lookup.timeoutError);
       } else {
-        setLookupError(
-          "접수 내역을 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-        );
+        setLookupError(text.lookup.serverError);
       }
     } finally {
       if (timeoutId) {
@@ -125,7 +144,8 @@ function LookupStep({
     }
   };
 
-  const hasResults = lookupSearched && lookupResults.length > 0;
+  const hasResults =
+    lookupSearched && lookupResults.length > 0;
 
   const isNotFound =
     lookupSearched &&
@@ -135,8 +155,14 @@ function LookupStep({
 
   return (
     <>
-      <p style={{ marginBottom: "8px", color: "#555", fontWeight: "bold" }}>
-        접수 내역 확인
+      <p
+        style={{
+          marginBottom: "8px",
+          color: "#555",
+          fontWeight: "bold",
+        }}
+      >
+        {text.lookup.title}
       </p>
 
       <p
@@ -148,7 +174,11 @@ function LookupStep({
           fontFamily: "inherit",
         }}
       >
-        현재 선택 경기장: {selectedStadium}
+        {text.lookup.currentStadium}:{" "}
+        {getStadiumLabel(
+          selectedStadium,
+          selectedLanguage
+        )}
       </p>
 
       <p
@@ -160,12 +190,23 @@ function LookupStep({
           fontFamily: "inherit",
         }}
       >
-        접수 시 입력한 이름과 전화번호로 접수 내역을 확인할 수 있습니다.
+        {text.lookup.description}
       </p>
 
-      <div style={{ textAlign: "left", marginBottom: "14px" }}>
-        <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
-          이름
+      <div
+        style={{
+          textAlign: "left",
+          marginBottom: "14px",
+        }}
+      >
+        <p
+          style={{
+            marginBottom: "8px",
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.lookup.name}
         </p>
 
         <input
@@ -191,9 +232,20 @@ function LookupStep({
         />
       </div>
 
-      <div style={{ textAlign: "left", marginBottom: "16px" }}>
-        <p style={{ marginBottom: "8px", color: "#333", fontWeight: "bold" }}>
-          전화번호
+      <div
+        style={{
+          textAlign: "left",
+          marginBottom: "16px",
+        }}
+      >
+        <p
+          style={{
+            marginBottom: "8px",
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.lookup.phone}
         </p>
 
         <input
@@ -228,14 +280,20 @@ function LookupStep({
           padding: "14px",
           borderRadius: "12px",
           border: "none",
-          backgroundColor: canSearch ? "#2563eb" : "#cbd5e1",
+          backgroundColor: canSearch
+            ? "#2563eb"
+            : "#cbd5e1",
           color: "white",
           fontSize: "16px",
           fontFamily: "inherit",
-          cursor: canSearch ? "pointer" : "not-allowed",
+          cursor: canSearch
+            ? "pointer"
+            : "not-allowed",
         }}
       >
-        {lookupLoading ? "조회 중..." : "조회하기"}
+        {lookupLoading
+          ? text.lookup.searching
+          : text.lookup.search}
       </button>
 
       {hasResults && (
@@ -249,11 +307,24 @@ function LookupStep({
             border: "1px solid #e5e7eb",
           }}
         >
-          <p style={{ marginTop: 0, color: "#333", fontWeight: "bold" }}>
-            조회 결과 {lookupResults.length}건
+          <p
+            style={{
+              marginTop: 0,
+              color: "#333",
+              fontWeight: "bold",
+            }}
+          >
+            {text.lookup.result} {lookupResults.length}
+            {text.lookup.count}
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
             {lookupResults.map((item, index) => (
               <div
                 key={item.id || index}
@@ -273,7 +344,7 @@ function LookupStep({
                     fontFamily: "inherit",
                   }}
                 >
-                  접수 내역 {index + 1}
+                  {text.lookup.item} {index + 1}
                 </p>
 
                 <p
@@ -285,11 +356,17 @@ function LookupStep({
                     fontFamily: "inherit",
                   }}
                 >
-                  상태: {item.status}
+                  {text.lookup.status}:{" "}
+                  {getStatusLabel(item.status)}
                   <br />
-                  문의 내용: {item.original_text}
+
+                  {text.lookup.inquiryText}:{" "}
+                  {item.original_text}
                   <br />
-                  접수 시간: {item.created_at || "정보 없음"}
+
+                  {text.lookup.createdAt}:{" "}
+                  {item.created_at ||
+                    text.lookup.noInfo}
                 </p>
               </div>
             ))}
@@ -311,9 +388,9 @@ function LookupStep({
             lineHeight: "1.5",
           }}
         >
-          입력한 정보로 조회되는 접수 내역이 없습니다.
+          {text.lookup.notFound}
           <br />
-          경기장 선택 또는 이름과 전화번호를 다시 한 번 확인해주세요.
+          {text.lookup.checkAgain}
         </div>
       )}
 
@@ -335,7 +412,13 @@ function LookupStep({
         </div>
       )}
 
-      <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          marginTop: "24px",
+        }}
+      >
         <button
           onClick={() => setStep("service")}
           disabled={lookupLoading}
@@ -348,10 +431,12 @@ function LookupStep({
             color: "#111",
             fontSize: "16px",
             fontFamily: "inherit",
-            cursor: lookupLoading ? "not-allowed" : "pointer",
+            cursor: lookupLoading
+              ? "not-allowed"
+              : "pointer",
           }}
         >
-          이전
+          {text.lookup.previous}
         </button>
 
         <button
@@ -362,14 +447,18 @@ function LookupStep({
             padding: "14px",
             borderRadius: "12px",
             border: "none",
-            backgroundColor: lookupLoading ? "#cbd5e1" : "#2563eb",
+            backgroundColor: lookupLoading
+              ? "#cbd5e1"
+              : "#2563eb",
             color: "white",
             fontSize: "16px",
             fontFamily: "inherit",
-            cursor: lookupLoading ? "not-allowed" : "pointer",
+            cursor: lookupLoading
+              ? "not-allowed"
+              : "pointer",
           }}
         >
-          처음으로
+          {text.lookup.home}
         </button>
       </div>
     </>

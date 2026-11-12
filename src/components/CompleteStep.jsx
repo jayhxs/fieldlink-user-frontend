@@ -1,12 +1,29 @@
-function CompleteStep({ latestSubmittedInquiry, resetForm }) {
+import {
+  getStadiumLabel,
+  getTranslation,
+} from "../translations";
+
+function CompleteStep({
+  selectedLanguage,
+  latestSubmittedInquiry,
+  resetForm,
+}) {
   if (!latestSubmittedInquiry) {
     return null;
   }
 
+  const text = getTranslation(selectedLanguage);
+
   return (
     <>
-      <p style={{ marginBottom: "8px", color: "#2563eb", fontWeight: "bold" }}>
-        접수가 완료되었습니다
+      <p
+        style={{
+          marginBottom: "8px",
+          color: "#2563eb",
+          fontWeight: "bold",
+        }}
+      >
+        {text.complete.title}
       </p>
 
       <p
@@ -18,7 +35,7 @@ function CompleteStep({ latestSubmittedInquiry, resetForm }) {
           lineHeight: "1.5",
         }}
       >
-        입력하신 이름과 전화번호로 접수 내역을 조회할 수 있습니다.
+        {text.complete.description}
       </p>
 
       <div
@@ -31,9 +48,16 @@ function CompleteStep({ latestSubmittedInquiry, resetForm }) {
           border: "1px solid #e5e7eb",
         }}
       >
-        <p style={{ marginTop: 0, color: "#333", fontWeight: "bold" }}>
-          원문 내용
+        <p
+          style={{
+            marginTop: 0,
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.complete.original}
         </p>
+
         <p
           style={{
             color: "#555",
@@ -57,9 +81,16 @@ function CompleteStep({ latestSubmittedInquiry, resetForm }) {
           marginTop: "20px",
         }}
       >
-        <p style={{ marginTop: 0, color: "#333", fontWeight: "bold" }}>
-          접수 요약
+        <p
+          style={{
+            marginTop: 0,
+            color: "#333",
+            fontWeight: "bold",
+          }}
+        >
+          {text.complete.summary}
         </p>
+
         <p
           style={{
             color: "#555",
@@ -68,17 +99,36 @@ function CompleteStep({ latestSubmittedInquiry, resetForm }) {
             lineHeight: "1.6",
           }}
         >
-          경기장: {latestSubmittedInquiry.stadium}
+          {text.complete.stadium}:{" "}
+          {getStadiumLabel(
+            latestSubmittedInquiry.stadium,
+            selectedLanguage
+          )}
           <br />
-          문의 유형: {latestSubmittedInquiry.followup.issueType}
+
+          {text.complete.issueType}:{" "}
+          {latestSubmittedInquiry.followup.issueType ||
+            text.complete.none}
           <br />
-          위치: {latestSubmittedInquiry.followup.location}
+
+          {text.complete.location}:{" "}
+          {latestSubmittedInquiry.followup.location ||
+            text.complete.none}
           <br />
-          발생 시점: {latestSubmittedInquiry.followup.occurredAt}
+
+          {text.complete.occurredAt}:{" "}
+          {latestSubmittedInquiry.followup.occurredAt ||
+            text.complete.none}
           <br />
-          현재 상태: {latestSubmittedInquiry.followup.currentStatus}
+
+          {text.complete.currentStatus}:{" "}
+          {latestSubmittedInquiry.followup.currentStatus ||
+            text.complete.none}
           <br />
-          추가 설명: {latestSubmittedInquiry.followup.extraDetail || "없음"}
+
+          {text.complete.extraDetail}:{" "}
+          {latestSubmittedInquiry.followup.extraDetail ||
+            text.complete.none}
         </p>
       </div>
 
@@ -97,7 +147,7 @@ function CompleteStep({ latestSubmittedInquiry, resetForm }) {
           cursor: "pointer",
         }}
       >
-        처음으로
+        {text.complete.home}
       </button>
     </>
   );

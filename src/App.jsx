@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 
+import { getLanguageCode } from "./translations";
+
 import LanguageStep from "./components/LanguageStep";
-
 import StadiumStep from "./components/StadiumStep";
-
 import ServiceStep from "./components/ServiceStep";
-
 import InquiryStep from "./components/InquiryStep";
-
 import FollowupStep from "./components/FollowupStep";
-
 import FaqStep from "./components/FaqStep";
-
 import LookupStep from "./components/LookupStep";
-
 import CompleteStep from "./components/CompleteStep";
 
 function App() {
@@ -27,28 +22,15 @@ function App() {
   const [inquiryText, setInquiryText] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
-  /*
-    기존 백엔드 전송 형식을 유지하기 위한 상태
-  */
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedIssueType, setSelectedIssueType] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [extraDetail, setExtraDetail] = useState("");
 
-  /*
-    동적으로 생성된 보완질문
-  */
   const [followupQuestions, setFollowupQuestions] = useState([]);
-
-  /*
-    질문 ID별 답변 저장
-  */
   const [followupAnswers, setFollowupAnswers] = useState({});
 
-  /*
-    AI 분석 상태
-  */
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState("");
 
@@ -141,7 +123,7 @@ function App() {
     "대전 한화생명 볼파크": "dj",
     "대구 삼성 라이온즈 파크": "dg",
     "광주-기아 챔피언스 필드": "gj",
-    "창원NC파크": "cw",
+    창원NC파크: "cw",
     "사직 야구장": "sj",
   };
 
@@ -153,7 +135,7 @@ function App() {
     "대전 한화생명 볼파크": 5,
     "대구 삼성 라이온즈 파크": 6,
     "광주-기아 챔피언스 필드": 7,
-    "창원NC파크": 8,
+    창원NC파크: 8,
     "사직 야구장": 9,
   };
 
@@ -174,11 +156,6 @@ function App() {
     return stadiumCodeMap[stadiumName] || "xx";
   };
 
-  /*
-    기존 임시 mock 분석 함수
-    현재 실제 AI API 연결 후에는 사용하지 않지만,
-    테스트가 완전히 끝날 때까지 일단 유지한다.
-  */
   const createMockFollowupAnalysis = (text) => {
     const normalizedText = text.replace(/\s/g, "").toLowerCase();
 
@@ -390,9 +367,6 @@ function App() {
     };
   };
 
-  /*
-    실제 AI 분석 API 호출
-  */
   const handlePrepareFollowup = async () => {
     if (isAnalyzing) return;
 
@@ -420,6 +394,7 @@ function App() {
           body: JSON.stringify({
             original_text: inquiryText,
             zone_id: zoneId,
+            language: getLanguageCode(selectedLanguage),
           }),
           signal: controller.signal,
         }
@@ -709,7 +684,11 @@ ${followupSummary}`;
         [stadiumCode]: nextCount,
       }));
 
-      setSubmittedInquiries((prev) => [...prev, submittedInquiry]);
+      setSubmittedInquiries((prev) => [
+        ...prev,
+        submittedInquiry,
+      ]);
+
       setLatestSubmittedInquiry(submittedInquiry);
       setStep("complete");
     } catch (error) {
@@ -761,7 +740,14 @@ ${followupSummary}`;
           textAlign: "center",
         }}
       >
-        <h1 style={{ marginBottom: "32px", color: "#111" }}>FieldLink</h1>
+        <h1
+          style={{
+            marginBottom: "32px",
+            color: "#111",
+          }}
+        >
+          FieldLink
+        </h1>
 
         {step === "language" && (
           <LanguageStep
@@ -800,6 +786,7 @@ ${followupSummary}`;
 
         {step === "inquiry" && (
           <InquiryStep
+            selectedLanguage={selectedLanguage}
             selectedStadium={selectedStadium}
             userName={userName}
             setUserName={setUserName}
@@ -825,6 +812,7 @@ ${followupSummary}`;
 
         {step === "followup" && (
           <FollowupStep
+            selectedLanguage={selectedLanguage}
             inquiryText={inquiryText}
             questions={followupQuestions}
             followupAnswers={followupAnswers}
@@ -849,17 +837,16 @@ ${followupSummary}`;
 
         {step === "faq" && (
           <FaqStep
-            selectedFaq={selectedFaq}
-            setSelectedFaq={setSelectedFaq}
+            selectedLanguage={selectedLanguage}
             selectedStadium={selectedStadium}
             setStep={setStep}
             resetForm={resetForm}
-            serviceButtonStyle={serviceButtonStyle}
           />
         )}
 
         {step === "lookup" && (
           <LookupStep
+            selectedLanguage={selectedLanguage}
             lookupName={lookupName}
             setLookupName={setLookupName}
             lookupPhone={lookupPhone}
@@ -874,6 +861,7 @@ ${followupSummary}`;
 
         {step === "complete" && (
           <CompleteStep
+            selectedLanguage={selectedLanguage}
             latestSubmittedInquiry={latestSubmittedInquiry}
             resetForm={resetForm}
           />
